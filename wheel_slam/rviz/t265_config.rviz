@@ -1,11 +1,14 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 138
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
-      Splitter Ratio: 0.44041451811790466
-    Tree Height: 800
+      Expanded:
+        - /Global Options1
+        - /ZED21
+        - /ZED21/left_overlay_image1
+      Splitter Ratio: 0.4385334253311157
+    Tree Height: 846
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -66,7 +69,7 @@ Visualization Manager:
         base_link:
           Value: true
         map:
-          Value: true
+          Value: false
         odom:
           Value: true
         zed2i_camera_center:
@@ -215,6 +218,63 @@ Visualization Manager:
           Transport Hint: raw
           Unreliable: false
           Value: false
+        - Class: jsk_rviz_plugin/TFTrajectory
+          Enabled: true
+          Name: map-odom
+          Value: true
+          color: 252; 233; 79
+          duration: 1000
+          frame: odom
+          line_width: 0.05000000074505806
+        - Class: jsk_rviz_plugin/TFTrajectory
+          Enabled: true
+          Name: map-base_link
+          Value: true
+          color: 25; 255; 240
+          duration: 1000
+          frame: zed2i_imu_link
+          line_width: 0.05000000074505806
+        - Alpha: 0.800000011920929
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: zed_pc_fused
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.03999999910593033
+          Style: Flat Squares
+          Topic: /zed2i/zed_node/mapping/fused_cloud
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Class: jsk_rviz_plugin/OverlayImage
+          Enabled: true
+          Name: left_overlay_image
+          Topic: /zed2i/zed_node/left_raw/image_raw_color
+          Value: true
+          alpha: 0.6000000238418579
+          height: 200
+          keep aspect ratio: true
+          left: 0
+          overwrite alpha value: true
+          top: 0
+          transport hint: raw
+          width: 500
       Enabled: true
       Name: ZED2
     - Class: rviz/Group
@@ -287,9 +347,33 @@ Visualization Manager:
           Name: TFTrajectory
           Value: true
           color: 114; 159; 207
-          duration: 100
+          duration: 1000
           frame: camera_link
           line_width: 0.009999999776482582
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: /camera/fisheye2/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: right
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /camera/fisheye1/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: left
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
       Enabled: false
       Name: Realsense
   Enabled: true
@@ -319,8 +403,8 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/Orbit
-      Distance: 23.81608009338379
+      Class: rviz/ThirdPersonFollower
+      Distance: 12.27119255065918
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -328,25 +412,25 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.6026632189750671
-        Y: 0.2333039790391922
-        Z: 0.7217156887054443
+        X: 2.1248483657836914
+        Y: 5.024744987487793
+        Z: -2.8350818865874317e-06
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.41039717197418213
+      Pitch: 0.3447970151901245
       Target Frame: <Fixed Frame>
-      Yaw: 2.2185332775115967
+      Yaw: 1.641723871231079
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
   Height: 1312
   Hide Left Dock: false
-  Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000051900000418fc020000000cfb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000004180000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000010007a00650064005f006c0065006600740000000267000001290000002600fffffffb00000012007a00650064005f0064006500700074006800000003390000014d0000002600fffffffb0000000a0049006d00610067006500000003ae000000d80000000000000000fb0000000a0049006d00610067006500000003b4000000d20000000000000000000000010000015f00000418fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000006e000004180000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000097000000060fc0100000002fb0000000800540069006d00650100000000000009700000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000002e00000041800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Hide Right Dock: true
+  QMainWindow State: 000000ff00000000fd0000000400000000000005f300000484fc020000000ffb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000003bc0000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000010007a00650064005f006c0065006600740000000267000001290000002600fffffffb00000012007a00650064005f0064006500700074006800000003390000014d0000002600fffffffb0000000a0049006d00610067006500000003ae000000d80000000000000000fb0000000a0049006d00610067006500000003b4000000d20000000000000000fb00000008006c00650066007400000002f8000000a90000002600fffffffb0000000a00720069006700680074000000030e000001560000002600fffffffb0000000800540069006d00650100000436000000bc0000005a00ffffff000000010000015f00000484fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006e000004840000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000097000000060fc0100000001fb0000000800540069006d00650100000000000004500000000000000000000003710000048400000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -354,10 +438,14 @@ Window Geometry:
   Tool Properties:
     collapsed: false
   Views:
-    collapsed: false
+    collapsed: true
   Width: 2416
   X: 144
   Y: 54
+  left:
+    collapsed: false
+  right:
+    collapsed: false
   zed_depth:
     collapsed: false
   zed_left:

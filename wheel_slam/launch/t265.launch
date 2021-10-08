@@ -16,8 +16,8 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
 
   <arg name="fisheye_width"       default="-1"/> 
   <arg name="fisheye_height"      default="-1"/>
-  <arg name="enable_fisheye1"     default="false"/>
-  <arg name="enable_fisheye2"     default="false"/>
+  <arg name="enable_fisheye1"     default="true"/>
+  <arg name="enable_fisheye2"     default="true"/>
 
   <arg name="fisheye_fps"         default="-1"/>
 
@@ -84,4 +84,6 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
       <arg name="publish_odom_tf"          value="$(arg publish_odom_tf)"/>
     </include>
   </group>
+
+  <node name="static_transform_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 map camera_odom_frame"/>
 </launch>
