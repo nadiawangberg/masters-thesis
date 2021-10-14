@@ -1,0 +1,14 @@
+Frame,Transformation to robot base_link
+Name,x(m),y(m),z(m),roll(deg),pitch(deg),yaw(deg)
+base_footprint,0,0,-0.01,0,0,0
+gyro_link,0.056,0.062,0.02,0,0,0
+laser,-0.036,-0.008,0.355,0,0,5.386
+kinect_link,0.0443,0.032,0.305,-0.355,0.012,0
+ocam_link,-0.198,-0.012,0.194,-91.272,0.974,89.782
+imu_link,-0.041,-0.031,0.192,-0.516,-0.057,-4.24
+zed_left_link,0.208,0.06,0.493,-66.234,0.344,-90.527
+zed_right_link,0.207,-0.059,0.492,-66.349,0.458,-90.298
+omni_left_link,-0.069,0.073,0.791,-90.814,1.833,-11.173
+omni_right_link,-0.06,-0.081,0.775,-89.725,-1.49,169.481
+vicon/kobuki_vicon_link/kobuki_vicon_link,0.063,0.0026,0.59,0,0,-1.29
+localink_link,-0.208,-0.004,0.674,-,-,-

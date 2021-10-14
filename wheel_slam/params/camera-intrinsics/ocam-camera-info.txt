@@ -1,0 +1,19 @@
+{
+	"ocam-camera-info": {
+		"D": [-0.418317,0.161955,0.000404,-0.000479,0],
+		"P": [381.18927,0,319.363652,0,0,432.490906,232.206036,0,0,0,1,0],
+		"width": 640,
+		"K": [484.891753,0,320.060671,0,487.929862,233.744045,0,0,1],
+		"height": 480,
+		"R": [1,0,0,0,1,0,0,0,1],
+		"binning_y": 0,
+		"binning_x": 0,
+		"distortion_model": "plumb_bob",
+		"roi_width": 0,
+		"roi_do_rectify": 0,
+		"roi_y_offset": 0,
+		"roi_x_offset": 0,
+		"roi_height": 0,
+		"header_frame_id": "ocam"
+	}
+}
