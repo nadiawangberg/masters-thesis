@@ -1,0 +1,10 @@
+<launch>
+    <node name="camera_calib_fix" pkg="wheel_slam" type="camera_calib_fix.py"/>
+    <node name="stereo_image_proc" pkg="stereo_image_proc" type="stereo_image_proc" ns="zed" />
+
+    <node name="zed_right_sensor_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 zed_left_frame zed_left_sensor"/>
+    <node name="zed_left_sensor_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 zed_right_frame zed_right_sensor"/>
+
+    <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info"/>
+
+</launch>

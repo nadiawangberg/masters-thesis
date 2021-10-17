@@ -1,0 +1,37 @@
+
+<launch>
+
+  <arg name="left" default="zed/left" />
+  <arg name="right" default="zed/right" />
+  <arg name="respawn" default="false" />
+
+<!-- Basic processing for left camera -->
+  <include file="$(find image_proc)/launch/image_proc.launch"
+	   ns="$(arg left)">
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="manager" value="$(arg manager)" />
+  </include>
+
+  <!-- Basic processing for right camera -->
+  <include file="$(find image_proc)/launch/image_proc.launch"
+	   ns="$(arg right)">
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="manager" value="$(arg manager)" />
+  </include>
+
+<!-- 
+  <node pkg="nodelet" type="nodelet" name="disparity"
+        args="load stereo_image_proc/disparity $(arg manager) $(arg bond)"
+	respawn="$(arg respawn)" >
+    <param name="approximate_sync" value="$(arg approximate_sync)" />
+  </node>
+
+  <node pkg="nodelet" type="nodelet" name="point_cloud2"
+        args="load stereo_image_proc/point_cloud2 $(arg manager) $(arg bond)"
+	respawn="$(arg respawn)" >
+    <param name="approximate_sync" value="$(arg approximate_sync)" />
+  </node> -->
+
+
+
+</launch>
