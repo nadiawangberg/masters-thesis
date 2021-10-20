@@ -1,37 +1,40 @@
 
 <launch>
+  <arg name="ns" default="d400"/>
+  <include file="$(find rtabmap_ros)/launch/rtabmap.launch" >
+      <!-- <arg name="namespace" value="$(arg ns)" /> -->
 
-  <arg name="left" default="zed/left" />
-  <arg name="right" default="zed/right" />
-  <arg name="respawn" default="false" />
+      <!-- <arg name="subscribe_rgbd" value="true" /> -->
 
-<!-- Basic processing for left camera -->
-  <include file="$(find image_proc)/launch/image_proc.launch"
-	   ns="$(arg left)">
-    <arg name="respawn" value="$(arg respawn)" />
-    <arg name="manager" value="$(arg manager)" />
-  </include>
+      <arg name="rtabmap_args" value="--delete_db_on_start --Optimizer/GravitySigma 0.3"/>
+      <!-- <arg name="depth_topic" value="/$(arg ns)/aligned_depth_to_color/image_raw"/> -->
+      
+      <arg name="depth_topic" value="/$(arg ns)/depth/image_raw"/>
 
-  <!-- Basic processing for right camera -->
-  <include file="$(find image_proc)/launch/image_proc.launch"
-	   ns="$(arg right)">
-    <arg name="respawn" value="$(arg respawn)" />
-    <arg name="manager" value="$(arg manager)" />
-  </include>
+      <arg name="frame_id" value="$(arg ns)_link"/>
 
-<!-- 
-  <node pkg="nodelet" type="nodelet" name="disparity"
-        args="load stereo_image_proc/disparity $(arg manager) $(arg bond)"
-	respawn="$(arg respawn)" >
-    <param name="approximate_sync" value="$(arg approximate_sync)" />
-  </node>
+      <!-- Comment in to use external odometry -->
+      <!-- <arg name="visual_odometry"    value="false"/> -->
+      <!-- <arg name="odom_topic" value="/odom"/> -->
 
-  <node pkg="nodelet" type="nodelet" name="point_cloud2"
-        args="load stereo_image_proc/point_cloud2 $(arg manager) $(arg bond)"
-	respawn="$(arg respawn)" >
-    <param name="approximate_sync" value="$(arg approximate_sync)" />
-  </node> -->
 
+      <!-- <arg name="rgb_topic" value="/$(arg ns)/color/image_raw"/> -->
+      <arg name="rgb_topic" value="/$(arg ns)/rgb/image_raw"/>
+
+
+      <!-- <arg name="camera_info_topic"  value="/$(arg ns)/color/camera_info"/> -->
+      <arg name="camera_info_topic"  value="/$(arg ns)/rgb/camera_info"/>
+
+      <arg name="queue_size"         value="200"/>
+      <arg name="rviz"               value="false"/>
+      <arg name="rtabmapviz"         value="false" />
+
+
+      <!-- <arg name="depth_camera_info_topic" value="/$(arg ns)/depth/camera_info"/>
+      <arg name="approx_sync" value="false"/>
+      <arg name="wait_imu_to_init" value="true"/>
+      <arg name="imu_topic" value="$(arg ns)/imu"/> -->
+    </include>
 
 
 </launch>
