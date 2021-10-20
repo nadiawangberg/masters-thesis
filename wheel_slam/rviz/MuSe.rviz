@@ -6,11 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /TF1/Frames1
-        - /Rectify1
         - /Rectify1/OverlayImage1
-        - /Rectify1/OverlayImage2
         - /Rectify1/PointCloud21
-      Splitter Ratio: 0.4385334253311157
+        - /RTAB1
+      Splitter Ratio: 0.5129740238189697
     Tree Height: 938
   - Class: rviz/Selection
     Name: Selection
@@ -30,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: PointCloud2
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -113,6 +112,8 @@ Visualization Manager:
           Value: true
         localino_sensor:
           Value: false
+        map:
+          Value: true
         ocam_link:
           Value: true
         ocam_sensor:
@@ -137,14 +138,10 @@ Visualization Manager:
           Value: false
         world_vicon:
           Value: false
-        zed_left_frame:
-          Value: true
         zed_left_link:
           Value: true
         zed_left_sensor:
           Value: false
-        zed_right_frame:
-          Value: true
         zed_right_link:
           Value: true
         zed_right_sensor:
@@ -156,95 +153,51 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              caster_back_link:
-                {}
-              caster_front_link:
-                {}
-              cliff_sensor_front_link:
-                {}
-              cliff_sensor_left_link:
-                {}
-              cliff_sensor_right_link:
-                {}
-              gyro_link:
-                {}
-              imu_link:
-                {}
-              kobuki_vicon_link:
-                {}
-              laser:
-                {}
-              localink_link:
-                {}
-              ocam_link:
-                {}
-              omni_left_link:
-                {}
-              omni_right_link:
-                {}
-              wheel_left_link:
-                {}
-              wheel_right_link:
-                {}
-              zed_left_link:
-                {}
-              zed_right_link:
-                {}
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                caster_back_link:
+                  {}
+                caster_front_link:
+                  {}
+                cliff_sensor_front_link:
+                  {}
+                cliff_sensor_left_link:
+                  {}
+                cliff_sensor_right_link:
+                  {}
+                gyro_link:
+                  {}
+                imu_link:
+                  {}
+                kobuki_vicon_link:
+                  {}
+                laser:
+                  {}
+                localink_link:
+                  {}
+                ocam_link:
+                  {}
+                omni_left_link:
+                  {}
+                omni_right_link:
+                  {}
+                zed_left_link:
+                  {}
+                zed_right_link:
+                  {}
+            kinect_link:
+              kinect_depth_frame:
+                kinect_depth_optical_frame:
+                  {}
+              kinect_rgb_frame:
+                kinect_rgb_optical_frame:
+                  {}
+            world_vicon:
+              {}
       Update Interval: 0
       Value: true
-    - Class: rviz/Camera
-      Enabled: false
-      Image Rendering: background and overlay
-      Image Topic: /kinect/rgb/image_raw
-      Name: Camera
-      Overlay Alpha: 0.5
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
-      Visibility:
-        Axes: true
-        Grid: true
-        Image: true
-        LaserScan: true
-        Odometry: true
-        Overlay_camera:
-          Value: true
-          kinect-color: true
-          ocam-back: true
-          omni-left: true
-          omni-right: true
-          zed-left: true
-          zed-right: true
-        Rectify:
-          OverlayImage: true
-          PointCloud2: true
-          Value: true
-        TF: true
-        Value: true
-        ZED:
-          Value: true
-          zed1: true
-          zed2: true
-        depth: true
-        ground truth: true
-        wheel_odom: true
-      Zoom Factor: 1
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /kinect/depth/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: depth
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
     - Class: rviz/Group
       Displays:
         - Class: jsk_rviz_plugin/OverlayImage
@@ -274,10 +227,10 @@ Visualization Manager:
           transport hint: raw
           width: 300
         - Class: jsk_rviz_plugin/OverlayImage
-          Enabled: false
+          Enabled: true
           Name: zed-left
           Topic: /zed/left/image_raw
-          Value: false
+          Value: true
           alpha: 0.800000011920929
           height: 128
           keep aspect ratio: true
@@ -325,8 +278,59 @@ Visualization Manager:
           top: 530
           transport hint: raw
           width: 300
+        - Class: rviz/Camera
+          Enabled: false
+          Image Rendering: background and overlay
+          Image Topic: /kinect/rgb/image_raw
+          Name: kinect_rgbd_overlay
+          Overlay Alpha: 0.5
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+          Visibility:
+            Axes: true
+            Grid: true
+            LaserScan: true
+            RTAB:
+              "": true
+              Value: true
+            Rectify:
+              OverlayImage: true
+              PointCloud2: true
+              Value: true
+            TF: true
+            Value: true
+            ZED:
+              "": true
+              Value: true
+            display_camera:
+              Value: true
+              kinect-color: true
+              kinect_depth: true
+              ocam-back: true
+              omni-left: true
+              omni-right: true
+              zed-left: true
+              zed-right: true
+            ground truth: true
+            wheel_odom: true
+            wheeled_odom: true
+          Zoom Factor: 1
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /kinect/depth/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: kinect_depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
       Enabled: true
-      Name: Overlay_camera
+      Name: display_camera
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
       Covariance:
@@ -346,7 +350,7 @@ Visualization Manager:
         Value: false
       Enabled: false
       Keep: 100
-      Name: Odometry
+      Name: wheeled_odom
       Position Tolerance: 0.10000000149011612
       Queue Size: 10
       Shape:
@@ -434,30 +438,6 @@ Visualization Manager:
       duration: 1000
       frame: kobuki_base_link_sensor
       line_width: 0.009999999776482582
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /left/image_rect
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /left/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
     - Class: rviz/Group
       Displays:
         - Class: jsk_rviz_plugin/OverlayImage
@@ -516,11 +496,198 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: Rectify
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: PointCloud2
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.029999999329447746
+          Style: Flat Squares
+          Topic: /rtabmap/cloud_map
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: true
+          Head Diameter: 0.30000001192092896
+          Head Length: 0.20000000298023224
+          Length: 0.30000001192092896
+          Line Style: Lines
+          Line Width: 0.029999999329447746
+          Name: Path
+          Offset:
+            X: 0
+            Y: 0
+            Z: 0
+          Pose Color: 255; 85; 255
+          Pose Style: None
+          Queue Size: 10
+          Radius: 0.029999999329447746
+          Shaft Diameter: 0.10000000149011612
+          Shaft Length: 0.10000000149011612
+          Topic: /rtabmap/mapPath
+          Unreliable: false
+          Value: true
+        - Alpha: 0.699999988079071
+          Class: rviz/Map
+          Color Scheme: map
+          Draw Behind: false
+          Enabled: true
+          Name: RTAB_octomap_grid
+          Topic: /rtabmap/octomap_grid
+          Unreliable: false
+          Use Timestamp: false
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: true
+          Head Diameter: 0.30000001192092896
+          Head Length: 0.20000000298023224
+          Length: 0.30000001192092896
+          Line Style: Lines
+          Line Width: 0.029999999329447746
+          Name: Path
+          Offset:
+            X: 0
+            Y: 0
+            Z: 0
+          Pose Color: 255; 85; 255
+          Pose Style: Arrows
+          Queue Size: 10
+          Radius: 0.029999999329447746
+          Shaft Diameter: 0.10000000149011612
+          Shaft Length: 0.10000000149011612
+          Topic: /rtabmap/global_path
+          Unreliable: false
+          Value: true
+        - Angle Tolerance: 0.10000000149011612
+          Class: rviz/Odometry
+          Covariance:
+            Orientation:
+              Alpha: 0.5
+              Color: 255; 255; 127
+              Color Style: Unique
+              Frame: Local
+              Offset: 1
+              Scale: 1
+              Value: false
+            Position:
+              Alpha: 0.30000001192092896
+              Color: 204; 51; 204
+              Scale: 5
+              Value: true
+            Value: true
+          Enabled: false
+          Keep: 1000
+          Name: RTAB-odom
+          Position Tolerance: 0.10000000149011612
+          Queue Size: 500
+          Shape:
+            Alpha: 1
+            Axes Length: 1
+            Axes Radius: 0.10000000149011612
+            Color: 255; 25; 0
+            Head Length: 0.30000001192092896
+            Head Radius: 0.10000000149011612
+            Shaft Length: 1
+            Shaft Radius: 0.05000000074505806
+            Value: Arrow
+          Topic: /rtabmap/odom
+          Unreliable: false
+          Value: false
+        - Class: rtabmap_ros/Info
+          Enabled: true
+          Name: Info
+          Queue Size: 10
+          Topic: /rtabmap/info
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: true
+          Head Diameter: 0.30000001192092896
+          Head Length: 0.20000000298023224
+          Length: 0.30000001192092896
+          Line Style: Lines
+          Line Width: 0.029999999329447746
+          Name: Path
+          Offset:
+            X: 0
+            Y: 0
+            Z: 0
+          Pose Color: 255; 85; 255
+          Pose Style: None
+          Queue Size: 10
+          Radius: 0.029999999329447746
+          Shaft Diameter: 0.10000000149011612
+          Shaft Length: 0.10000000149011612
+          Topic: /rtabmap/local_path
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Axes Length: 1
+          Axes Radius: 0.10000000149011612
+          Class: rviz/PoseWithCovariance
+          Color: 255; 25; 0
+          Covariance:
+            Orientation:
+              Alpha: 0.5
+              Color: 255; 255; 127
+              Color Style: Unique
+              Frame: Local
+              Offset: 1
+              Scale: 1
+              Value: true
+            Position:
+              Alpha: 0.30000001192092896
+              Color: 204; 51; 204
+              Scale: 1
+              Value: true
+            Value: false
+          Enabled: true
+          Head Length: 0.30000001192092896
+          Head Radius: 0.10000000149011612
+          Name: rtabmap_localizaion_pose
+          Queue Size: 10
+          Shaft Length: 1
+          Shaft Radius: 0.05000000074505806
+          Shape: Arrow
+          Topic: /rtabmap/localization_pose
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: RTAB
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -544,7 +711,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 10.524529457092285
+      Distance: 16.39506721496582
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -552,29 +719,25 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.910814106464386
-        Y: -0.3622475862503052
-        Z: -4.84633574160398e-06
+        X: 0.06246614456176758
+        Y: 1.414480447769165
+        Z: -6.95033395459177e-06
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.2347973883152008
+      Pitch: 0.5547967553138733
       Target Frame: <Fixed Frame>
-      Yaw: 2.4785702228546143
+      Yaw: 3.638610363006592
     Saved: ~
 Window Geometry:
-  Camera:
-    collapsed: false
   Displays:
     collapsed: false
   Height: 1312
   Hide Left Dock: false
   Hide Right Dock: true
-  Image:
-    collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000004b100000418fc0200000018fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000004180000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000010007a00650064005f006c0065006600740000000267000001290000000000000000fb00000012007a00650064005f0064006500700074006800000003390000014d0000000000000000fb0000000a0049006d00610067006500000003ae000000d80000002600fffffffb0000000a0049006d00610067006500000003b4000000d20000002600fffffffb00000008006c00650066007400000002f8000000a90000000000000000fb0000000a00720069006700680074000000030e000001560000000000000000fb0000000c00430061006d006500720061000000035a000000af0000002600fffffffb0000000a0049006d0061006700650000000337000000d20000000000000000fb0000000a00640065007000740068000000024d000000a00000002600fffffffb0000000a0049006d0061006700650000000415000000dd0000000000000000fb0000000a0049006d0061006700650000000415000000dd0000000000000000fb00000008007a00650064003100000002ef000000d40000002600fffffffb00000008007a00650064003200000003cf000000b70000002600fffffffb0000000a0049006d006100670065010000025b0000010d0000000000000000fb0000000a0049006d0061006700650100000374000001120000000000000000fb0000000a0049006d00610067006500000003c8000000be0000000000000000000000010000015f00000484fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006e000004840000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000097000000060fc0100000002fb0000000800540069006d00650100000000000009700000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000004b30000041800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000035500000418fc0200000018fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000004180000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000010007a00650064005f006c0065006600740000000267000001290000000000000000fb00000012007a00650064005f0064006500700074006800000003390000014d0000000000000000fb0000000a0049006d00610067006500000003ae000000d80000000000000000fb0000000a0049006d00610067006500000003b4000000d20000000000000000fb00000008006c00650066007400000002f8000000a90000000000000000fb0000000a00720069006700680074000000030e000001560000000000000000fb00000026006b0069006e006500630074005f0072006700620064005f006f007600650072006c0061007900000003d7000000af0000002600fffffffb0000000a0049006d0061006700650000000337000000d20000000000000000fb00000018006b0069006e006500630074005f0064006500700074006800000003e6000000a00000002600fffffffb0000000a0049006d0061006700650000000415000000dd0000000000000000fb0000000a0049006d0061006700650000000415000000dd0000000000000000fb00000008007a006500640031000000034e000000ae0000002600fffffffb00000008007a00650064003200000004080000007e0000002600fffffffb0000000a0049006d006100670065010000025b0000010d0000000000000000fb0000000a0049006d0061006700650100000374000001120000000000000000fb0000000a0049006d00610067006500000003c8000000be0000000000000000000000010000015f00000484fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006e000004840000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000097000000060fc0100000002fb0000000800540069006d00650100000000000009700000057100fffffffb0000000800540069006d006501000000000000045000000000000000000000060f0000041800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -586,7 +749,9 @@ Window Geometry:
   Width: 2416
   X: 144
   Y: 54
-  depth:
+  kinect_depth:
+    collapsed: false
+  kinect_rgbd_overlay:
     collapsed: false
   zed1:
     collapsed: false

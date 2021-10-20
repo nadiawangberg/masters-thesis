@@ -1,7 +1,11 @@
-<!-- Launchfile to launch rviz and static transform publishers needed to visualize the MuSe dataset -->
-<launch>
-    <arg name="rviz" default="true"/>    
+<!-- Launches rviz, rosbag, extrinsics and rectifies zed stereo-->
 
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="rectify" default="false"/>
+    <arg name="dark_bag" default="false"/>
+
+    <!-- EXTRINSICS -->
     <node name="base_footprint_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 -0.01 0 0 0 1 base_link base_footprint"/>
     <node name="gyro_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.056 0.062 0.02 0 0 0 1 base_link gyro_link"/>
 
@@ -15,24 +19,11 @@
     <node name="omni_left_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.069 0.073 0.791 0 0 0 1 base_link omni_left_link"/>
     <node name="omni_right_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.06 -0.081 0.775 0 0 0 1 base_link omni_right_link"/>
 
-
-    <!-- for dataset S1-S2 -->
-    <!-- <node name="vicon_base_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="2.97 0.28 0 0 0 0.0566928 0.9983917 odom world_vicon"/> should z in [x y z w] be negative??? -->
-
-    <!-- for dataset S2-S2 -->
-    <!-- <node name="vicon_base_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 odom world_vicon"/> -->
-
-
     <node name="kobuki_vicon_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.063 0.0026 0.59 0 0 0 1 base_link kobuki_vicon_link"/>
     <node name="localink_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.208 -0.004 0.674 0 0 0 1 base_link localink_link"/>
 
-    <group if="$(arg rviz)">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wheel_slam)/rviz/MuSe.rviz" required="true" />
-    </group>
-
     <!-- 
         MuSe extrinsics - /params/extrinsics.yaml
-
 
         Frame,Transformation to robot base_link
         Name,x(m),y(m),z(m),roll(deg),pitch(deg),yaw(deg)
@@ -51,7 +42,41 @@
 
         vicon/kobuki_vicon_link/kobuki_vicon_link,0.063,0.0026,0.59,0,0,-1.29 (DONE, see comment, need to create GT alignment node) [0.063 0.0026 0.59 0 0 -0.0112571 0.9999366]
         localink_link,-0.208,-0.004,0.674,-,-,- (DONE?)
-
     -->
+
+    <!-- PLAY BAG-->
+    <group if="$(arg dark_bag)">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s2-02-2018-12-05-21-39-34.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s 380 --clock"/>
+        <!-- for dataset S2-S2 -->
+        <node name="vicon_base_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 odom world_vicon"/>
+    </group>
+
+    <group unless="$(arg dark_bag)">
+        <!-- LIGHT BAG -->
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info --clock"/>
+        <!-- for dataset S1-S2, TODO make a node to publish this based on base_link to kobuki_base should be 0 -->
+        <node name="vicon_base_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="2.97 0.28 0 0 0 0.0566928 0.9983917 odom world_vicon"/> <!-- should z in [x y z w] be negative??? -->
+    </group>
+
+
+    <group if="$(arg rviz)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wheel_slam)/rviz/MuSe.rviz" required="true" />
+    </group>
+
+    <!-- RECTIFY ZED STEREO -->
+    <group if="$(arg rectify)">
+        <!-- TODO - If stereo data is never needed this can be removed -->
+        <node name="camera_calib_fix" pkg="wheel_slam" type="camera_calib_fix.py"/>
+        <node name="stereo_image_proc" pkg="stereo_image_proc" type="stereo_image_proc" ns="zed" />
+        <node name="zed_right_sensor_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 zed_left_frame zed_left_sensor"/>
+        <node name="zed_left_sensor_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 zed_right_frame zed_right_sensor"/>
+
+    </group>
+
+
+    <!-- TODO, check whether these are neccesary even when stereo data is not used -->
+    <!-- <node name="base_odom_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 base_link base_odom"/> -->
+
+
 
 </launch>
