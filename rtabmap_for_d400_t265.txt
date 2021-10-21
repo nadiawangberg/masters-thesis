@@ -1,0 +1,12 @@
+roslaunch rtabmap_ros rtabmap.launch \
+   args:="-d --Mem/UseOdomGravity true --Optimizer/GravitySigma 0.3" \
+   odom_topic:=/t265/odom/sample \
+   frame_id:=t265_link \
+   queue_size:=1000 \
+   rgbd_sync:=true \
+   depth_topic:=/d400/aligned_depth_to_color/image_raw \
+   rgb_topic:=/d400/color/image_raw \
+   camera_info_topic:=/d400/color/camera_info \
+   approx_rgbd_sync:=false \
+   visual_odometry:=false \
+   approx_sync:=true
