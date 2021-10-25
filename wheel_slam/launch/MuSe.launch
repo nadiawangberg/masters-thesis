@@ -1,26 +1,32 @@
 <!-- Launches rviz, rosbag, extrinsics and rectifies zed stereo-->
 
 <launch>
+
+    <arg name="base_name" default="base_link"/>
+    <arg name="start_time" default="375"/> <!-- This param is only for darkbag -->
+    <!-- This is usually published by rtab_map, -->
+    <node name="init_map_odom_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 map odom"/>
+
     <arg name="rviz" default="true"/>
     <arg name="rectify" default="false"/>
     <arg name="dark_bag" default="false"/>
 
     <!-- EXTRINSICS -->
-    <node name="base_footprint_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 -0.01 0 0 0 1 base_link base_footprint"/>
-    <node name="gyro_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.056 0.062 0.02 0 0 0 1 base_link gyro_link"/>
+    <node name="base_footprint_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 -0.01 0 0 0 1 $(arg base_name) base_footprint"/>
+    <node name="gyro_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.056 0.062 0.02 0 0 0 1 $(arg base_name) gyro_link"/>
 
-    <node name="laser_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.036 -0.008 0.355 0 0 0.0469844 0.9988956 base_link laser"/>
-    <node name="kinect_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args=",0.0443 0.032 0.305 -0.003098 0.0001047 -0.0000003 0.9999952 base_link kinect_link"/>
-    <node name="ocam_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.198 -0.012 0.194 -0.5022673 0.5087488 0.489155 0.4996295 base_link ocam_link"/>
-    <node name="imu_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.041 -0.031 0.192 -0.0044815 -0.0006636 -0.0369899 0.9993054 base_link imu_link"/>
+    <node name="laser_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.036 -0.008 0.355 0 0 0.0469844 0.9988956 $(arg base_name) laser"/>
+    <node name="kinect_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args=",0.0443 0.032 0.305 -0.003098 0.0001047 -0.0000003 0.9999952 $(arg base_name) kinect_link"/>
+    <node name="ocam_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.198 -0.012 0.194 -0.5022673 0.5087488 0.489155 0.4996295 $(arg base_name) ocam_link"/>
+    <node name="imu_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.041 -0.031 0.192 -0.0044815 -0.0006636 -0.0369899 0.9993054 $(arg base_name) imu_link"/>
 
-    <node name="zed_left_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.208 0.06 0.493 -0.3863317 -0.3863293 -0.5961111 0.5883443 base_link zed_left_link"/>
-    <node name="zed_right_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.207 -0.059 0.492 -0.3882834 -0.3855647 -0.5949288 0.5887577 base_link zed_right_link"/>
-    <node name="omni_left_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.069 0.073 0.791 0 0 0 1 base_link omni_left_link"/>
-    <node name="omni_right_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.06 -0.081 0.775 0 0 0 1 base_link omni_right_link"/>
+    <node name="zed_left_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.208 0.06 0.493 -0.3863317 -0.3863293 -0.5961111 0.5883443 $(arg base_name) zed_left_link"/>
+    <node name="zed_right_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.207 -0.059 0.492 -0.3882834 -0.3855647 -0.5949288 0.5887577 $(arg base_name) zed_right_link"/>
+    <node name="omni_left_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.069 0.073 0.791 0 0 0 1 $(arg base_name) omni_left_link"/>
+    <node name="omni_right_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.06 -0.081 0.775 0 0 0 1 $(arg base_name) omni_right_link"/>
 
-    <node name="kobuki_vicon_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.063 0.0026 0.59 0 0 0 1 base_link kobuki_vicon_link"/>
-    <node name="localink_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.208 -0.004 0.674 0 0 0 1 base_link localink_link"/>
+    <node name="kobuki_vicon_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.063 0.0026 0.59 0 0 0 1 $(arg base_name) kobuki_vicon_link"/>
+    <node name="localink_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="-0.208 -0.004 0.674 0 0 0 1 $(arg base_name) localink_link"/>
 
     <!-- 
         MuSe extrinsics - /params/extrinsics.yaml
@@ -44,18 +50,19 @@
         localink_link,-0.208,-0.004,0.674,-,-,- (DONE?)
     -->
 
-    <!-- PLAY BAG-->
+    <!-- DARK BAG -->
     <group if="$(arg dark_bag)">
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s2-02-2018-12-05-21-39-34.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s 380 --clock"/>
-        <!-- for dataset S2-S2 -->
-        <node name="vicon_base_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 odom world_vicon"/>
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s2-02-2018-12-05-21-39-34.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s $(arg start_time) --clock"/> <!-- dark at 380-->
+        <node name="vicon_base_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 map world_vicon"/> <!-- TODO, this transform is wrong-->
     </group>
 
+    <!-- LIGHT BAG -->
     <group unless="$(arg dark_bag)">
-        <!-- LIGHT BAG -->
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info --clock"/>
+        <!-- <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -clock"/> -->
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/light/hb-s2-02-2018-12-05-21-39-34_chunk015.bag --clock"/>
+
         <!-- for dataset S1-S2, TODO make a node to publish this based on base_link to kobuki_base should be 0 -->
-        <node name="vicon_base_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="2.97 0.28 0 0 0 0.0566928 0.9983917 odom world_vicon"/> <!-- should z in [x y z w] be negative??? -->
+        <node name="vicon_base_publisher" pkg="tf2_ros" type="static_transform_publisher" args="2.97 0.28 0 0 0 0.0566928 0.9983917 map world_vicon"/> <!-- should z in [x y z w] be negative??? -->
     </group>
 
 
