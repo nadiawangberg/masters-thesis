@@ -1,0 +1,8 @@
+\begin{tabular}{llllllll}
+\toprule
+{} &      rmse &      mean &    median &        std &          min &       max &      sse \\
+\midrule
+odom     &  0.226577 &  0.212449 &  0.218112 &  0.0787579 &  6.28037e-16 &  0.331951 &  468.401 \\
+filtered &  0.199291 &  0.170951 &   0.13665 &   0.102433 &  1.11022e-16 &  0.354689 &  202.119 \\
+\bottomrule
+\end{tabular}
