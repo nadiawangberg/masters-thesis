@@ -52,14 +52,14 @@
 
     <!-- DARK BAG -->
     <group if="$(arg dark_bag)">
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s2-02-2018-12-05-21-39-34.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s $(arg start_time) --clock"/> <!-- dark at 380-->
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s2-02-2018-12-05-21-39-34.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s $(arg start_time) /odom:=/wheel_odom --clock"/> <!-- dark at 380-->
         <node name="vicon_base_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 map world_vicon"/> <!-- TODO, this transform is wrong-->
     </group>
 
     <!-- LIGHT BAG -->
     <group unless="$(arg dark_bag)">
-        <!-- <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -clock"/> -->
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/light/hb-s2-02-2018-12-05-21-39-34_chunk015.bag --clock"/>
+        <!-- <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info /odom:=/wheel_odom -clock"/> -->
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/light/hb-s2-02-2018-12-05-21-39-34_chunk015.bag /odom:=/wheel_odom --clock"/>
 
         <!-- for dataset S1-S2, TODO make a node to publish this based on base_link to kobuki_base should be 0 -->
         <node name="vicon_base_publisher" pkg="tf2_ros" type="static_transform_publisher" args="2.97 0.28 0 0 0 0.0566928 0.9983917 map world_vicon"/> <!-- should z in [x y z w] be negative??? -->

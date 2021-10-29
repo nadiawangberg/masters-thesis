@@ -8,9 +8,9 @@ Panels:
         - /Rectify1/OverlayImage1
         - /Rectify1/PointCloud21
         - /pose_messages1
+        - /pose_messages1/wheeled_odom1
         - /tf_trajectory1
         - /tf_trajectory1/EKF1
-        - /tf_trajectory1/EKF1/Status1
       Splitter Ratio: 0.5129740238189697
     Tree Height: 938
   - Class: rviz/Selection
@@ -31,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -134,8 +134,6 @@ Visualization Manager:
           Value: true
         vicon_kobuki_base_link_sensor:
           Value: false
-        vo_odom:
-          Value: true
         wheel_left_link:
           Value: false
         wheel_right_link:
@@ -195,19 +193,18 @@ Visualization Manager:
                   {}
                 zed_right_link:
                   {}
-          vo_odom:
-            kinect_link:
-              kinect_depth_frame:
-                kinect_depth_optical_frame:
-                  {}
-              kinect_rgb_frame:
-                kinect_rgb_optical_frame:
-                  {}
           world_vicon:
             vicon/kobuki_vicon_link/kobuki_vicon_link:
               kobuki_base_link_sensor:
                 imu_sensor:
                   {}
+                kinect_link:
+                  kinect_depth_frame:
+                    kinect_depth_optical_frame:
+                      {}
+                  kinect_rgb_frame:
+                    kinect_rgb_optical_frame:
+                      {}
                 kinect_sensor:
                   {}
                 laser_sensor:
@@ -356,12 +353,8 @@ Visualization Manager:
               rtabmap_vo_odom: true
               wheeled_odom: true
             tf_trajectory:
-              EKF: true
-              RTAB: true
-              RTAB-loopclosee: true
+              "": true
               Value: true
-              ground truth: true
-              wheel_odom: true
           Zoom Factor: 1
         - Class: rviz/Image
           Enabled: false
@@ -669,7 +662,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: false
-          Enabled: false
+          Enabled: true
           Head Length: 0.30000001192092896
           Head Radius: 0.10000000149011612
           Name: EKF
@@ -679,7 +672,7 @@ Visualization Manager:
           Shape: Arrow
           Topic: /robot_pose_ekf/odom_combined
           Unreliable: false
-          Value: false
+          Value: true
         - Angle Tolerance: 0.10000000149011612
           Class: rviz/Odometry
           Covariance:
@@ -697,7 +690,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: false
-          Enabled: false
+          Enabled: true
           Keep: 100
           Name: wheeled_odom
           Position Tolerance: 0.10000000149011612
@@ -712,9 +705,9 @@ Visualization Manager:
             Shaft Length: 1
             Shaft Radius: 0.05000000074505806
             Value: Arrow
-          Topic: /odom
+          Topic: /wheel_odom
           Unreliable: false
-          Value: false
+          Value: true
         - Angle Tolerance: 0.10000000149011612
           Class: rviz/Odometry
           Covariance:
@@ -770,7 +763,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: true
-          Enabled: false
+          Enabled: true
           Head Length: 0.30000001192092896
           Head Radius: 0.10000000149011612
           Name: rtabmap_localizaion_pose
@@ -780,7 +773,7 @@ Visualization Manager:
           Shape: Arrow
           Topic: /rtabmap/localization_pose
           Unreliable: false
-          Value: false
+          Value: true
         - Angle Tolerance: 0.10000000149011612
           Class: rviz/Odometry
           Covariance:
@@ -906,9 +899,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8002039194107056
+      Pitch: 0.7402039170265198
       Target Frame: <Fixed Frame>
-      Yaw: 3.844106674194336
+      Yaw: 1.7491098642349243
     Saved: ~
 Window Geometry:
   Displays:
