@@ -4,10 +4,10 @@
 evo_config set save_traj_in_zip true
 
 #wheel odom
-#evo_ape bag s2-s2-clearpathEKF-short.bag /vicon/kobuki_vicon_link/kobuki_vicon_link /odom --align_origin --plot --save_results results/odom.zip
+#evo_ape bag s2-s2-clearpathEKF-short.bag /vicon/kobuki_vicon_link/kobuki_vicon_link /wheel_odom --align_origin --plot --save_results results/odom.zip
 
 #rtab VO
-#evo_ape bag s2-s2-clearpathEKF-short.bag /vicon/kobuki_vicon_link/kobuki_vicon_link /rtabmap/vo_odom --align_origin --plot --save_results results/rtabVO.zip
+#evo_ape bag s2-s2-clearpathEKF-short.bag /vicon/kobuki_vicon_link/kobuki_vicon_link /rtabmap/odom --align_origin --plot --save_results results/rtabVO.zip
 
 #rtab POSE - need to use tf transform
 #TODO, map<->kinect_link is not properly published??? Although map->vo_link and vo_link->kinect_link seems fine??

@@ -12,9 +12,9 @@
       <arg name="depth_topic" value="/$(arg ns)/depth/image_raw"/>
 
       <arg name="frame_id" value="$(arg ns)_link"/>
-      <arg name="odom_topic" value="vo_odom"/>
-      <!-- <arg name="publish_tf_odom" value="false"/> -->
-      <!-- <arg name="publish_tf_map" value="false"/> -->
+      <arg name="odom_topic" value="odom"/>
+      <arg name="publish_tf_odom" value="false"/>
+      <arg name="publish_tf_map" value="false"/>
 
       <!-- Comment in to use external odometry -->
       <!-- <arg name="visual_odometry"    value="false"/> -->
