@@ -13,8 +13,8 @@
 
       <arg name="frame_id" value="$(arg ns)_link"/>
       <arg name="odom_topic" value="odom"/>
-      <arg name="publish_tf_odom" value="true"/>
-      <arg name="publish_tf_map" value="true"/>
+      <arg name="publish_tf_odom" value="true"/> <!-- Should be true to ensure we are not using ground truth data -->
+      <arg name="publish_tf_map" value="false"/>
 
       <!-- Comment in to use external odometry -->
       <!-- <arg name="visual_odometry"    value="false"/> -->
