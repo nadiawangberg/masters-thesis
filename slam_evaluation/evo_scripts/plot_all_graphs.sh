@@ -10,7 +10,7 @@
 #evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /rtabmap/localization_pose /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz --align
 #evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /rtabmap/localization_pose /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz #--align --n_to_align 2000
 
-evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /rtabmap/localization_pose /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz --align_origin #--align --n_to_align 2000
+evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xy --align_origin #--align --n_to_align 2000
 
 
 
