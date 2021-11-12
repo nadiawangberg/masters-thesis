@@ -12,7 +12,7 @@ Panels:
         - /pose_messages1/rtabmap_vo_odom1/Covariance1
         - /pose_messages1/rtabmap_vo_odom1/Covariance1/Position1
         - /pose_messages1/robot_localization_EKF1/Shape1
-        - /tf_trajectory1/ground truth1
+        - /tf_trajectory1
       Splitter Ratio: 0.5129740238189697
     Tree Height: 938
   - Class: rviz/Selection
@@ -33,7 +33,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -76,8 +76,6 @@ Visualization Manager:
           Value: false
         base_link:
           Value: true
-        base_link_EKF:
-          Value: true
         caster_back_link:
           Value: false
         caster_front_link:
@@ -90,8 +88,6 @@ Visualization Manager:
           Value: false
         gyro_link:
           Value: false
-        imu_link:
-          Value: true
         imu_sensor:
           Value: false
         kinect_depth_frame:
@@ -108,30 +104,16 @@ Visualization Manager:
           Value: false
         kobuki_base_link_sensor:
           Value: true
-        kobuki_vicon_link:
-          Value: true
-        laser:
-          Value: true
         laser_sensor:
           Value: false
-        localink_link:
-          Value: true
         localino_sensor:
           Value: false
-        map:
-          Value: true
-        ocam_link:
-          Value: true
         ocam_sensor:
           Value: false
         odom:
           Value: true
-        omni_left_link:
-          Value: true
         omni_left_sensor:
           Value: false
-        omni_right_link:
-          Value: true
         omni_right_sensor:
           Value: false
         vicon/kobuki_vicon_link/kobuki_vicon_link:
@@ -144,12 +126,8 @@ Visualization Manager:
           Value: false
         world_vicon:
           Value: false
-        zed_left_link:
-          Value: true
         zed_left_sensor:
           Value: false
-        zed_right_link:
-          Value: true
         zed_right_sensor:
           Value: false
       Marker Alpha: 1
@@ -159,51 +137,25 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                caster_back_link:
-                  {}
-                caster_front_link:
-                  {}
-                cliff_sensor_front_link:
-                  {}
-                cliff_sensor_left_link:
-                  {}
-                cliff_sensor_right_link:
-                  {}
-                gyro_link:
-                  {}
-                imu_link:
-                  {}
-                kobuki_vicon_link:
-                  {}
-                laser:
-                  {}
-                localink_link:
-                  {}
-                ocam_link:
-                  {}
-                omni_left_link:
-                  {}
-                omni_right_link:
-                  {}
-                wheel_left_link:
-                  {}
-                wheel_right_link:
-                  {}
-                zed_left_link:
-                  {}
-                zed_right_link:
-                  {}
-            kinect_link:
-              kinect_depth_frame:
-                kinect_depth_optical_frame:
-                  {}
-              kinect_rgb_frame:
-                kinect_rgb_optical_frame:
-                  {}
+        odom:
+          base_footprint:
+            base_link:
+              caster_back_link:
+                {}
+              caster_front_link:
+                {}
+              cliff_sensor_front_link:
+                {}
+              cliff_sensor_left_link:
+                {}
+              cliff_sensor_right_link:
+                {}
+              gyro_link:
+                {}
+              wheel_left_link:
+                {}
+              wheel_right_link:
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz/Group
@@ -334,12 +286,8 @@ Visualization Manager:
               rtabmap_vo_odom: true
               wheeled_odom: true
             tf_trajectory:
-              EKF: true
-              RTAB: true
-              RTAB-loopclosee: true
+              "": true
               Value: true
-              ground truth: true
-              wheel_odom: true
           Zoom Factor: 1
         - Class: rviz/Image
           Enabled: false
@@ -807,9 +755,9 @@ Visualization Manager:
           frame: kobuki_base_link_sensor
           line_width: 0.019999999552965164
         - Class: jsk_rviz_plugin/TFTrajectory
-          Enabled: false
+          Enabled: true
           Name: wheel_odom
-          Value: false
+          Value: true
           color: 25; 255; 240
           duration: 1000
           frame: base_link
@@ -823,9 +771,9 @@ Visualization Manager:
           frame: kinect_link
           line_width: 0.009999999776482582
         - Class: jsk_rviz_plugin/TFTrajectory
-          Enabled: false
+          Enabled: true
           Name: RTAB-loopclosee
-          Value: false
+          Value: true
           color: 253; 255; 52
           duration: 1000
           frame: vo_odom
@@ -844,7 +792,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -867,7 +815,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -4.815016746520996
+      Angle: -13.780075073242188
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -877,10 +825,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 125.18802642822266
+      Scale: 271.16119384765625
       Target Frame: <Fixed Frame>
-      X: -2.5796613693237305
-      Y: -2.4286301136016846
+      X: 1.2234293222427368
+      Y: 0.31042954325675964
     Saved: ~
 Window Geometry:
   Displays:
