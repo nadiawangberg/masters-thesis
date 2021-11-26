@@ -9,7 +9,7 @@
 
     <arg name="rviz" default="true"/>
     <arg name="rectify" default="false"/>
-    <arg name="dark_bag" default="false"/>
+    <arg name="bag_type" default="dark_bag"/>
     <arg name="fix_covariance_wheel_odom" default="false"/>
 
     <!-- EXTRINSICS -->
@@ -61,12 +61,12 @@
     -->
 
     <!-- DARK BAG -->
-    <group if="$(arg dark_bag)">
+    <group if="$(eval arg('bag_type') == 'dark_bag')">
         <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s2-02-2018-12-05-21-39-34.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s $(arg start_time) /odom:=/wheel_odom kinect:=kinect2 --clock"/> <!-- dark at 380-->
     </group>
 
     <!-- LIGHT BAG -->
-    <group unless="$(arg dark_bag)">
+    <group if="$(eval arg('bag_type') == 'light_bag')">
         <!-- <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s1-02-2018-12-05-21-28-42.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info /odom:=/wheel_odom -clock"/> -->
         <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/light/hb-s2-02-2018-12-05-21-39-34_chunk015.bag /odom:=/wheel_odom --clock"/>
 
@@ -74,6 +74,9 @@
         <node name="vicon_base_publisher" pkg="tf2_ros" type="static_transform_publisher" args="2.97 0.28 0 0 0 0.0566928 0.9983917 map world_vicon"/> <!-- should z in [x y z w] be negative??? -->
     </group>
 
+    <group if="$(eval arg('bag_type') == 'dynamic_bag')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/MuSe/hb-s3-01-2018-12-05-22-08-55.bag /zed/right/camera_info:=/right/camera_info /zed/left/camera_info:=/left/camera_info -s $(arg start_time) /odom:=/wheel_odom kinect:=kinect2 --clock"/> <!-- dark at 380-->
+    </group>
 
     <group if="$(arg fix_covariance_wheel_odom)">
         <!-- TODO create a node that sets the covariance of the wheel odometry lower -->

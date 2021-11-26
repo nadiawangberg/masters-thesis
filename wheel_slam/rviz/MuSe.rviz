@@ -68,68 +68,10 @@ Visualization Manager:
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_footprint:
-          Value: false
-        base_link:
-          Value: true
-        caster_back_link:
-          Value: false
-        caster_front_link:
-          Value: false
-        cliff_sensor_front_link:
-          Value: false
-        cliff_sensor_left_link:
-          Value: false
-        cliff_sensor_right_link:
-          Value: false
-        gyro_link:
-          Value: false
-        imu_sensor:
-          Value: false
-        kinect_depth_frame:
-          Value: false
-        kinect_depth_optical_frame:
-          Value: false
-        kinect_link:
-          Value: true
-        kinect_rgb_frame:
-          Value: false
-        kinect_rgb_optical_frame:
-          Value: false
-        kinect_sensor:
-          Value: false
-        kobuki_base_link_sensor:
-          Value: true
-        laser_sensor:
-          Value: false
-        localino_sensor:
-          Value: false
-        ocam_sensor:
-          Value: false
-        odom:
-          Value: true
-        omni_left_sensor:
-          Value: false
-        omni_right_sensor:
-          Value: false
-        vicon/kobuki_vicon_link/kobuki_vicon_link:
-          Value: true
-        vicon_kobuki_base_link_sensor:
-          Value: false
-        wheel_left_link:
-          Value: false
-        wheel_right_link:
-          Value: false
-        world_vicon:
-          Value: false
-        zed_left_sensor:
-          Value: false
-        zed_right_sensor:
-          Value: false
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -137,27 +79,9 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              caster_back_link:
-                {}
-              caster_front_link:
-                {}
-              cliff_sensor_front_link:
-                {}
-              cliff_sensor_left_link:
-                {}
-              cliff_sensor_right_link:
-                {}
-              gyro_link:
-                {}
-              wheel_left_link:
-                {}
-              wheel_right_link:
-                {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Class: rviz/Group
       Displays:
         - Class: jsk_rviz_plugin/OverlayImage
@@ -286,8 +210,12 @@ Visualization Manager:
               rtabmap_vo_odom: true
               wheeled_odom: true
             tf_trajectory:
-              "": true
+              EKF: true
+              RTAB: true
+              RTAB-loopclosee: true
               Value: true
+              ground truth: true
+              wheel_odom: true
           Zoom Factor: 1
         - Class: rviz/Image
           Enabled: false
@@ -815,7 +743,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -13.780075073242188
+      Angle: -14.680092811584473
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -825,10 +753,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 271.16119384765625
+      Scale: 149.9156494140625
       Target Frame: <Fixed Frame>
-      X: 1.2234293222427368
-      Y: 0.31042954325675964
+      X: 2.4789724349975586
+      Y: 1.2648838758468628
     Saved: ~
 Window Geometry:
   Displays:
