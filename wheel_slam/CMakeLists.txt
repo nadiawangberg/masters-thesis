@@ -124,6 +124,10 @@ catkin_install_python(PROGRAMS scripts/fuse_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+catkin_install_python(PROGRAMS scripts/simple_slam.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 catkin_install_python(PROGRAMS scripts/camera_calib_fix.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
