@@ -29,9 +29,10 @@ class Slam(object):
 
         self.pose_index = 1
 
-        prior_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([0.1, 0.1, 0.1]))
+        #prior_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([0.1, 0.1, 0.1]))
+        prior_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([0.01, 0.01, 0.01]))
         self.factor_graph.add(gtsam.PriorFactorPose2(self.pose_index, gtsam.Pose2(0.0, 0.0, 0.0), prior_noise))
-        self.initial_estimate.insert(self.pose_index, gtsam.Pose2(0.5, 0.0, 0.2))
+        self.initial_estimate.insert(self.pose_index, gtsam.Pose2(0.05, 0.0, 0.02)) #0.5, 0.0, 0.2
 
 
         #Init ROS publishers and subscribers
@@ -39,6 +40,12 @@ class Slam(object):
         rospy.Subscriber("kinect/rgb/image_raw",Image, self.img_cb)
         rospy.Subscriber("kinect/depth/image_raw", Image, self.depth_cb)
         self.pose_pub = rospy.Publisher('pose_estm', PoseStamped, queue_size=1)
+
+        #Publish initial estimate
+        pose_msg = self.toPoseStamped(gtsam.Pose2(0.0, 0.0, 0.0), "odom", rospy.Time.now())
+        print("publising first pose!")
+        print(pose_msg)
+        self.pose_pub.publish(pose_msg)
 
         #self.result = None
         self.slam_estm = None
@@ -51,10 +58,12 @@ class Slam(object):
         cov = odom_msg.pose.covariance # 1x36 vector representing 6x6 matrix
         
         #TODO - do i need to use the twist messages????
-        # x = odom_msg.pose.pose.position.x
-        # y = odom_msg.pose.pose.position.y
-        # ros_quat = odom_msg.pose.pose.orientation
-        # yaw = self.ros_quat_to_yaw(ros_quat) #in radians
+
+        #GROUND TRUTH
+        x_gt = odom_msg.pose.pose.position.x
+        y_gt = odom_msg.pose.pose.position.y
+        ros_quat_gt = odom_msg.pose.pose.orientation
+        yaw_gt = self.ros_quat_to_yaw(ros_quat_gt) #in radians
 
         x = odom_msg.twist.twist.linear.x
         y = odom_msg.twist.twist.linear.y
@@ -68,20 +77,20 @@ class Slam(object):
 
         #Add to factor graph
         odometry_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([cov[0], cov[7], cov[35]]))
-        self.factor_graph.add(gtsam.BetweenFactorPose2(self.pose_index-1, self.pose_index, gtsam.Pose2(x, y, yaw), odometry_noise))
-        self.initial_estimate.insert(self.pose_index, gtsam.Pose2(x, y, yaw))
+        self.factor_graph.add(gtsam.BetweenFactorPose2(self.pose_index-1, self.pose_index, gtsam.Pose2(x/50, y/50, yaw/50), odometry_noise))
+        self.initial_estimate.insert(self.pose_index, gtsam.Pose2(x_gt+0.1, y_gt-0.2, yaw_gt-0.01))
 
         #print(self.factor_graph)
 
 
-        if (self.pose_index % 300 == 0):
+        if (self.pose_index % 10 == 0):
             print("Solving the factor graph...")
             self.solve_factor_graph()
 
             print(self.slam_estm)
 
             #Publish slam estimate as odometry message
-            pose_msg = self.toPoseStamped(self.slam_estm, "odom")
+            pose_msg = self.toPoseStamped(self.slam_estm, "odom", odom_msg.header.stamp)
             self.pose_pub.publish(pose_msg)
         # else:
         #     print(self.factor_graph)
@@ -110,10 +119,10 @@ class Slam(object):
         pos.orientation.z = orient[3]
         return pos
 
-    def toPoseStamped(self,gtsamPose2, frame_id):
+    def toPoseStamped(self,gtsamPose2, frame_id, time):
         pos = PoseStamped()
 
-        pos.header.stamp = rospy.Time.now()
+        pos.header.stamp = time #rospy.Time.now()
         pos.header.frame_id = frame_id
         pos.pose = self.toPose(gtsamPose2.x(),gtsamPose2.y(),gtsamPose2.theta())
 
@@ -155,6 +164,7 @@ class Slam(object):
 
 
         # Create an optimizer.
+
         params = gtsam.LevenbergMarquardtParams()
         optimizer = gtsam.LevenbergMarquardtOptimizer(self.factor_graph, self.initial_estimate, params)
 

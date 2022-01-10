@@ -3,7 +3,6 @@
 # frequency specified here, regardless of whether it receives more measurements. Defaults to 30 if unspecified.
 frequency: 30
 
-silent_tf_failure: false
 # The period, in seconds, after which we consider a sensor to have timed out. In this event, we carry out a predict
 # cycle on the EKF without correcting it. This parameter can be thought of as the minimum frequency with which the
 # filter will generate new output. Defaults to 1 / frequency if not specified.
@@ -115,7 +114,7 @@ odom0_differential: true
 # for all future measurements. While you can achieve the same effect with the differential paremeter, the key
 # difference is that the relative parameter doesn't cause the measurement to be converted to a velocity before
 # integrating it. If you simply want your measurements to start at 0 for a given sensor, set this to true.
-odom0_relative: true #This is automatically true if differential is set to true
+odom0_relative: false #This is automatically true if differential is set to true
 
 # [ADVANCED] If your data is subject to outliers, use these threshold settings, expressed as Mahalanobis distances, to
 # control how far away from the current vehicle state a sensor measurement is permitted to be. Each defaults to
@@ -123,8 +122,8 @@ odom0_relative: true #This is automatically true if differential is set to true
 # required. Data is specified at the level of pose and twist variables, rather than for each variable in isolation.
 # For messages that have both pose and twist data, the parameter specifies to which part of the message we are applying
 # the thresholds.
-odom0_pose_rejection_threshold: 0.5 #5
-odom0_twist_rejection_threshold: 0.5 #1
+odom0_pose_rejection_threshold: 5 #5
+odom0_twist_rejection_threshold: 1 #1
 
 # Further input parameter examples
 
@@ -140,8 +139,8 @@ odom1_relative: true
 odom1_nodelay: false
 
 # odom1_queue_size: 2
-# odom1_pose_rejection_threshold: 2
-# odom1_twist_rejection_threshold: 0.2
+odom1_pose_rejection_threshold: 5
+odom1_twist_rejection_threshold: 1
 
 
 

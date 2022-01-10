@@ -17,7 +17,8 @@ Panels:
         - /pose_messages1/robot_localization_EKF1/Shape1
         - /tf_trajectory1/wheel_odom1
         - /tf_trajectory1/RTAB1
-        - /Pose1
+        - /Odometry1
+        - /Odometry1/Shape1
       Splitter Ratio: 0.5129740238189697
     Tree Height: 1046
   - Class: rviz/Selection
@@ -175,6 +176,7 @@ Visualization Manager:
             GTSAM: true
             Grid: true
             LaserScan: true
+            Pose: true
             RTAB:
               Info: true
               Path: true
@@ -730,7 +732,7 @@ Visualization Manager:
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: GTSAM
@@ -740,7 +742,7 @@ Visualization Manager:
       Shape: Axes
       Topic: ""
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -755,6 +757,41 @@ Visualization Manager:
       Shaft Radius: 0.05000000074505806
       Shape: Arrow
       Topic: /pose_estm
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: false
+      Enabled: true
+      Keep: 100
+      Name: Odometry
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 138; 226; 52
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /wheel_odom
       Unreliable: false
       Value: true
   Enabled: true
@@ -784,7 +821,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 4.784994602203369
+      Angle: 4.779994487762451
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -794,10 +831,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 125.5960922241211
+      Scale: 191.24798583984375
       Target Frame: <Fixed Frame>
-      X: 0.5021779537200928
-      Y: -0.7618500590324402
+      X: -0.08629506826400757
+      Y: -1.497563123703003
     Saved: ~
 Window Geometry:
   Displays:
