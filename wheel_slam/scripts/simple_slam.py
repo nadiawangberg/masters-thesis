@@ -37,15 +37,11 @@ class Slam(object):
         rospy.Subscriber("wheel_odom", Odometry, self.wheel_odom_cb)
         rospy.Subscriber("kinect/rgb/image_raw",Image, self.img_cb)
         rospy.Subscriber("kinect/depth/image_raw", Image, self.depth_cb)
+        self.odom_pub = rospy.Publisher('slam_estm', Odometry, queue_size=1)
         self.pose_pub = rospy.Publisher('pose_estm', PoseStamped, queue_size=1)
-
-        #Publish initial estimate
-        #pose_msg = self.toPoseStamped(gtsam.Pose2(0.0, 0.0, 0.0), "odom", rospy.Time.now())
-        #self.pose_pub.publish(pose_msg)
 
         #self.result = None
         self.slam_estm = gtsam.Pose2(0.0, 0.0, 0.0)
-
 
     def wheel_odom_cb(self, odom_msg):
         self.pose_index += 1
@@ -66,18 +62,22 @@ class Slam(object):
         # y_gt = odom_msg.pose.pose.position.y
         # ros_quat_gt = odom_msg.pose.pose.orientation
         # yaw_gt = self.ros_quat_to_yaw(ros_quat_gt) #in radians
-        #self.initial_estimate.insert(self.pose_index, gtsam.Pose2(x_gt, y_gt, yaw_gt))
+        # self.initial_estimate.insert(self.pose_index, gtsam.Pose2(x_gt, y_gt, yaw_gt))
 
         self.initial_estimate.insert(self.pose_index, self.slam_estm) #TODO should odometry be added to this (aka constant velocity model)
 
-        print("Solving the factor graph...")
-        self.solve_factor_graph()
+        if (self.pose_index % 50 == 0): #TODO changing this number changes the answer... whyyy?
+            print("Solving the factor graph...")
+            self.solve_factor_graph()
 
-        print(self.slam_estm)
+            #Publish slam estimate
+            ros_pose = self.toPose(self.slam_estm.x(),self.slam_estm.y(),self.slam_estm.theta())
+            
+            pose_msg = self.toPoseStamped(ros_pose, "odom", odom_msg.header.stamp)
+            self.pose_pub.publish(pose_msg)
 
-        #Publish slam estimate as odometry message
-        pose_msg = self.toPoseStamped(self.slam_estm, "odom", odom_msg.header.stamp)
-        self.pose_pub.publish(pose_msg)
+            odom_msg = self.toOdometry(ros_pose, "odom", odom_msg.header.stamp)
+            self.odom_pub.publish(odom_msg)
 
     def img_cb(self, img_msg):
             # rospy.loginfo('Image received...')
@@ -100,13 +100,20 @@ class Slam(object):
         pos.orientation.z = orient[3]
         return pos
 
-    def toPoseStamped(self,gtsamPose2, frame_id, time):
-        pos = PoseStamped()
+    def toOdometry(self,rosPose, frame_id, time):
+        odom = Odometry()
+        odom.header.stamp = time
+        odom.header.frame_id = frame_id
+        odom.pose.pose = rosPose
+        #odom.pose.covariance = ...
+        #odom.twist = ...
+        return odom
 
+    def toPoseStamped(self,rosPose, frame_id, time):
+        pos = PoseStamped()
         pos.header.stamp = time
         pos.header.frame_id = frame_id
-        pos.pose = self.toPose(gtsamPose2.x(),gtsamPose2.y(),gtsamPose2.theta())
-
+        pos.pose = rosPose
         return pos
 
     #Helper functions
@@ -119,7 +126,6 @@ class Slam(object):
         phi = np.arctan2(2*quaternion[3]*quaternion[2]+2*quaternion[0]*quaternion[1],quaternion_squared[0] - quaternion_squared[1] - quaternion_squared[2] + quaternion_squared[3])
         theta = np.arcsin(2*(quaternion[0]*quaternion[2]-2*quaternion[1]*quaternion[3]))
         psi =  np.arctan2(2*quaternion[1]*quaternion[2]+2*quaternion[0]*quaternion[3],quaternion_squared[0] + quaternion_squared[1] - quaternion_squared[2] - quaternion_squared[3])
-
         euler_angles = np.array([phi,theta,psi])
         return euler_angles
 
@@ -135,7 +141,6 @@ class Slam(object):
         qy = ay*np.sin(angle/2)
         qz = az*np.sin(angle/2)
         qw = np.cos(angle/2)
-
         return [qw,qx,qy,qz]
 
     def solve_factor_graph(self):

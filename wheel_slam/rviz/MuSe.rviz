@@ -17,8 +17,7 @@ Panels:
         - /pose_messages1/robot_localization_EKF1/Shape1
         - /tf_trajectory1/wheel_odom1
         - /tf_trajectory1/RTAB1
-        - /Odometry1
-        - /Odometry1/Shape1
+        - /wheel odom1/Shape1
       Splitter Ratio: 0.5129740238189697
     Tree Height: 1046
   - Class: rviz/Selection
@@ -176,7 +175,6 @@ Visualization Manager:
             GTSAM: true
             Grid: true
             LaserScan: true
-            Pose: true
             RTAB:
               Info: true
               Path: true
@@ -188,6 +186,7 @@ Visualization Manager:
               OverlayImage: true
               PointCloud2: true
               Value: true
+            SLAM estm: true
             TF: true
             Value: true
             ZED:
@@ -217,6 +216,7 @@ Visualization Manager:
               Value: true
               ground truth: true
               wheel_odom: true
+            wheel odom: true
           Zoom Factor: 1
         - Class: rviz/Image
           Enabled: false
@@ -743,22 +743,6 @@ Visualization Manager:
       Topic: ""
       Unreliable: false
       Value: false
-    - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.10000000149011612
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.30000001192092896
-      Head Radius: 0.10000000149011612
-      Name: Pose
-      Queue Size: 10
-      Shaft Length: 1
-      Shaft Radius: 0.05000000074505806
-      Shape: Arrow
-      Topic: /pose_estm
-      Unreliable: false
-      Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
       Covariance:
@@ -778,7 +762,7 @@ Visualization Manager:
         Value: false
       Enabled: true
       Keep: 100
-      Name: Odometry
+      Name: wheel odom
       Position Tolerance: 0.10000000149011612
       Queue Size: 10
       Shape:
@@ -792,6 +776,57 @@ Visualization Manager:
         Shaft Radius: 0.05000000074505806
         Value: Arrow
       Topic: /wheel_odom
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: SLAM estm
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /slam_estm
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 117; 80; 123
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Queue Size: 10
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: /pose_estm
       Unreliable: false
       Value: true
   Enabled: true
@@ -821,7 +856,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 4.779994487762451
+      Angle: 4.990015983581543
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -831,10 +866,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 191.24798583984375
+      Scale: 141.0028533935547
       Target Frame: <Fixed Frame>
-      X: -0.08629506826400757
-      Y: -1.497563123703003
+      X: 1.263268232345581
+      Y: -3.118467092514038
     Saved: ~
 Window Geometry:
   Displays:
