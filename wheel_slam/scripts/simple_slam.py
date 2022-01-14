@@ -8,6 +8,7 @@ import rospy
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+from gtsam.symbol_shorthand import X, L
 from geometry_msgs.msg import Pose, PoseStamped #, Twist, PoseArray, PoseStamped
 import cv2
 import numpy as np
@@ -27,48 +28,67 @@ class Slam(object):
         self.initial_estimate = gtsam.Values()  
         self.factor_graph = gtsam.NonlinearFactorGraph()
 
-        self.pose_index = 1
+        isam_params = gtsam.ISAM2Params()
+        self.isam = gtsam.ISAM2(isam_params)
+
+        self.indx = 1
 
         prior_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([0.01, 0.01, 0.01])) #0.1
-        self.factor_graph.add(gtsam.PriorFactorPose2(self.pose_index, gtsam.Pose2(0.0, 0.0, 0.0), prior_noise))
-        self.initial_estimate.insert(self.pose_index, gtsam.Pose2(0.01, 0.01, 0.01)) #0.5, 0.0, 0.2
+        self.factor_graph.add(gtsam.PriorFactorPose2(self.indx, gtsam.Pose2(0.0, 0.0, 0.0), prior_noise))
+        self.initial_estimate.insert(self.indx, gtsam.Pose2(0.01, 0.01, 0.01)) #0.5, 0.0, 0.2
+        self.isam.update(self.factor_graph, self.initial_estimate)
 
         #Init ROS publishers and subscribers
-        rospy.Subscriber("wheel_odom", Odometry, self.wheel_odom_cb)
-        rospy.Subscriber("kinect/rgb/image_raw",Image, self.img_cb)
-        rospy.Subscriber("kinect/depth/image_raw", Image, self.depth_cb)
+        rospy.Subscriber("wheel_odom", Odometry, self.wheel_odom_cb) # /rtabmap/odom"
+        # rospy.Subscriber("kinect/rgb/image_raw",Image, self.img_cb)
+        # rospy.Subscriber("kinect/depth/image_raw", Image, self.depth_cb)
         self.odom_pub = rospy.Publisher('slam_estm', Odometry, queue_size=1)
         self.pose_pub = rospy.Publisher('pose_estm', PoseStamped, queue_size=1)
 
-        #self.result = None
-        self.slam_estm = gtsam.Pose2(0.0, 0.0, 0.0)
+        #self.slam_estm = gtsam.Pose2(0.0, 0.0, 0.0)
+        result = self.isam.calculateEstimate()
+        self.slam_estm = result.atPose2(self.indx)
 
-    def wheel_odom_cb(self, odom_msg):
-        self.pose_index += 1
+    def wheel_odom_cb(self, odom_msg): #NOTE, this works for all types of twist information, including from VO
+        factor_graph = gtsam.NonlinearFactorGraph()
+        initial_estimate = gtsam.Values()
+        
+        self.indx += 1
+
+        print(self.indx)
 
         #ROS convertion
+        odom_hz = 50 # TODO, it seems like odom is updated at 1hz, but its published in ROS at a greater hz, causing wrong twist between updates
         cov = odom_msg.pose.covariance # 1x36 vector representing 6x6 matrix
         x = odom_msg.twist.twist.linear.x
         y = odom_msg.twist.twist.linear.y
         yaw = odom_msg.twist.twist.angular.z
-        odometry = gtsam.Pose2(x/50, y/50, yaw/50) #NOTE! divided by 50 as wheel odometry is updated at 1Hz, but falsely published in ROS at 50Hz
+        odometry = gtsam.Pose2(x/odom_hz, y/odom_hz, yaw/odom_hz) #NOTE! divided by 50 as wheel odometry is updated at 1Hz, but falsely published in ROS at 50Hz
 
         #Add to factor graph
         odometry_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([cov[0], cov[7], cov[35]]))
-        self.factor_graph.add(gtsam.BetweenFactorPose2(self.pose_index-1, self.pose_index, odometry, odometry_noise))
+        factor_graph.add(gtsam.BetweenFactorPose2(self.indx-1, self.indx, odometry, odometry_noise))
         
         #Initial estimate based on ground truth
         # x_gt = odom_msg.pose.pose.position.x
         # y_gt = odom_msg.pose.pose.position.y
         # ros_quat_gt = odom_msg.pose.pose.orientation
         # yaw_gt = self.ros_quat_to_yaw(ros_quat_gt) #in radians
-        # self.initial_estimate.insert(self.pose_index, gtsam.Pose2(x_gt, y_gt, yaw_gt))
+        # self.initial_estimate.insert(self.indx, gtsam.Pose2(x_gt, y_gt, yaw_gt))
 
-        self.initial_estimate.insert(self.pose_index, self.slam_estm) #TODO should odometry be added to this (aka constant velocity model)
+        initial_estimate.insert(self.indx, self.slam_estm) #TODO should odometry be added to this (aka constant velocity model)
+        
+        print(factor_graph)
+        print(initial_estimate)
+        
+        self.isam.update(factor_graph, initial_estimate)
 
-        if (self.pose_index % 50 == 0): #TODO changing this number changes the answer... whyyy?
-            print("Solving the factor graph...")
-            self.solve_factor_graph()
+        result = self.isam.calculateEstimate()
+        self.slam_estm = result.atPose2(self.indx)
+
+        if (self.indx % odom_hz == 0): #TODO changing this number changes the answer... whyyy?
+            # print("Solving the factor graph...")
+            # self.solve_factor_graph()
 
             #Publish slam estimate
             ros_pose = self.toPose(self.slam_estm.x(),self.slam_estm.y(),self.slam_estm.theta())
@@ -79,6 +99,7 @@ class Slam(object):
             odom_msg = self.toOdometry(ros_pose, "odom", odom_msg.header.stamp)
             self.odom_pub.publish(odom_msg)
 
+
     def img_cb(self, img_msg):
             # rospy.loginfo('Image received...')
             self.image = self.br.imgmsg_to_cv2(img_msg)
@@ -87,6 +108,28 @@ class Slam(object):
     def depth_cb(self, img_msg):
             self.depth = self.br.imgmsg_to_cv2(img_msg)
             # self.show_image(self.depth, "Depth Window")
+
+    def solve_factor_graph(self):
+
+        """
+        # Create an optimizer.
+        params = gtsam.LevenbergMarquardtParams()
+        
+        # Stop iterating once the change in error between steps is less than this value
+        params.setRelativeErrorTol(1e-5)
+        # Do not perform more than N iteration steps
+        params.setMaxIterations(100)
+
+        optimizer = gtsam.LevenbergMarquardtOptimizer(self.factor_graph, self.initial_estimate, params)
+        # Solve the MAP problem.
+        result = optimizer.optimize() #Does COLAMD ordering by default
+        """
+
+        result = self.isam.calculateEstimate()
+        self.slam_estm = result.atPose2(self.indx)
+
+        # Calculate marginal covariances for all variables.
+        #marginals = gtsam.Marginals(self.pose_graph, result)
 
     def toPose(self,x,y,theta):
         pos = Pose()
@@ -142,24 +185,6 @@ class Slam(object):
         qz = az*np.sin(angle/2)
         qw = np.cos(angle/2)
         return [qw,qx,qy,qz]
-
-    def solve_factor_graph(self):
-        # Create an optimizer.
-        params = gtsam.LevenbergMarquardtParams()
-        
-        # Stop iterating once the change in error between steps is less than this value
-        params.setRelativeErrorTol(1e-5)
-        # Do not perform more than N iteration steps
-        params.setMaxIterations(100)
-
-        optimizer = gtsam.LevenbergMarquardtOptimizer(self.factor_graph, self.initial_estimate, params)
-
-        # Solve the MAP problem.
-        result = optimizer.optimize() #Does COLAMD ordering by default
-        self.slam_estm = result.atPose2(self.pose_index)
-
-        # Calculate marginal covariances for all variables.
-        #marginals = gtsam.Marginals(self.pose_graph, result)
         
 
 if __name__ == '__main__':
