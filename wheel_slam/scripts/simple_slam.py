@@ -3,8 +3,6 @@ Loosly couples wheel odometry and pose estimates from SLAM
 """
 
 import rospy
-# import slam_ros_utils as utl
-#import "slam_ros_utils.py" as utl
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
@@ -14,6 +12,8 @@ import cv2
 import numpy as np
 import gtsam
 
+# from wheel_slam.src.wheel_slam import slam_ros_utils
+# import slam_ros_utils as utl
 
 br = CvBridge()
 
