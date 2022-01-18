@@ -34,9 +34,9 @@ class Slam(object):
         self.indx = 1
 
         prior_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([0.01, 0.01, 0.01])) #0.1
-        self.factor_graph.add(gtsam.PriorFactorPose2(self.indx, gtsam.Pose2(0.0, 0.0, 0.0), prior_noise))
+        self.factor_graph.push_back(gtsam.PriorFactorPose2(self.indx, gtsam.Pose2(0.0, 0.0, 0.0), prior_noise))
         self.initial_estimate.insert(self.indx, gtsam.Pose2(0.01, 0.01, 0.01)) #0.5, 0.0, 0.2
-        self.isam.update(self.factor_graph, self.initial_estimate)
+        # self.isam.update(self.factor_graph, self.initial_estimate)
 
         #Init ROS publishers and subscribers
         rospy.Subscriber("wheel_odom", Odometry, self.wheel_odom_cb) # /rtabmap/odom"
@@ -46,59 +46,66 @@ class Slam(object):
         self.pose_pub = rospy.Publisher('pose_estm', PoseStamped, queue_size=1)
 
         #self.slam_estm = gtsam.Pose2(0.0, 0.0, 0.0)
+        # result = self.isam.calculateEstimate()
+        # self.slam_estm = result.atPose2(self.indx)
+        self.slam_estm = gtsam.Pose2(0.0, 0.0, 0.0)
+
+    def wheel_odom_cb(self, odom_msg): #NOTE, this works for all types of twist information, including from VO
+        # factor_graph = gtsam.NonlinearFactorGraph()
+        # initial_estimate = gtsam.Values()
+        
+        self.indx += 1
+        odom_hz = 1
+
+        odom_gtsam, odom_noise_gtsam = self.msg_2_gtsam(odom_msg, odom_hz)
+
+        #Add to factor graph
+        self.factor_graph.push_back(gtsam.BetweenFactorPose2(self.indx-1, self.indx, odom_gtsam, odom_noise_gtsam))
+        self.initial_estimate.insert(self.indx, self.slam_estm) #TODO should odometry be added to this (aka constant velocity model)
+        
+        # print(factor_graph)
+        # print(initial_estimate)
+        
+        self.isam.update(self.factor_graph, self.initial_estimate)
+        
         result = self.isam.calculateEstimate()
         self.slam_estm = result.atPose2(self.indx)
 
-    def wheel_odom_cb(self, odom_msg): #NOTE, this works for all types of twist information, including from VO
-        factor_graph = gtsam.NonlinearFactorGraph()
-        initial_estimate = gtsam.Values()
-        
-        self.indx += 1
+        self.initial_estimate.clear()     
+            
 
-        print(self.indx)
-
-        #ROS convertion
-        odom_hz = 50 # TODO, it seems like odom is updated at 1hz, but its published in ROS at a greater hz, causing wrong twist between updates
+    def msg_2_gtsam(self, odom_msg, odom_hz):
         cov = odom_msg.pose.covariance # 1x36 vector representing 6x6 matrix
         x = odom_msg.twist.twist.linear.x
         y = odom_msg.twist.twist.linear.y
         yaw = odom_msg.twist.twist.angular.z
+
+        #GTSAM pose
         odometry = gtsam.Pose2(x/odom_hz, y/odom_hz, yaw/odom_hz) #NOTE! divided by 50 as wheel odometry is updated at 1Hz, but falsely published in ROS at 50Hz
 
-        #Add to factor graph
+        #GTSAM covariance
         odometry_noise = gtsam.noiseModel.Diagonal.Sigmas(np.array([cov[0], cov[7], cov[35]]))
-        factor_graph.add(gtsam.BetweenFactorPose2(self.indx-1, self.indx, odometry, odometry_noise))
-        
-        #Initial estimate based on ground truth
-        # x_gt = odom_msg.pose.pose.position.x
-        # y_gt = odom_msg.pose.pose.position.y
-        # ros_quat_gt = odom_msg.pose.pose.orientation
-        # yaw_gt = self.ros_quat_to_yaw(ros_quat_gt) #in radians
-        # self.initial_estimate.insert(self.indx, gtsam.Pose2(x_gt, y_gt, yaw_gt))
 
-        initial_estimate.insert(self.indx, self.slam_estm) #TODO should odometry be added to this (aka constant velocity model)
-        
-        print(factor_graph)
-        print(initial_estimate)
-        
-        self.isam.update(factor_graph, initial_estimate)
+        return odometry, odometry_noise
 
-        result = self.isam.calculateEstimate()
-        self.slam_estm = result.atPose2(self.indx)
 
-        if (self.indx % odom_hz == 0): #TODO changing this number changes the answer... whyyy?
-            # print("Solving the factor graph...")
-            # self.solve_factor_graph()
+    def publish_pose_estm(self):
 
-            #Publish slam estimate
-            ros_pose = self.toPose(self.slam_estm.x(),self.slam_estm.y(),self.slam_estm.theta())
+        # print(self.factor_graph)
+        # print(self.initial_estimate)
+
+        # print(self.result.dim())
+
+        # if (self.result.dim() == 0):
+        #     return
+
+        ros_pose = self.toPose(self.slam_estm.x(),self.slam_estm.y(),self.slam_estm.theta())
             
-            pose_msg = self.toPoseStamped(ros_pose, "odom", odom_msg.header.stamp)
-            self.pose_pub.publish(pose_msg)
+        pose_msg = self.toPoseStamped(ros_pose, "odom", rospy.Time.now())
+        self.pose_pub.publish(pose_msg)
 
-            odom_msg = self.toOdometry(ros_pose, "odom", odom_msg.header.stamp)
-            self.odom_pub.publish(odom_msg)
-
+        odom_msg = self.toOdometry(ros_pose, "odom", rospy.Time.now())
+        self.odom_pub.publish(odom_msg)
 
     def img_cb(self, img_msg):
             # rospy.loginfo('Image received...')
@@ -189,5 +196,23 @@ class Slam(object):
 
 if __name__ == '__main__':
     rospy.init_node('simple_slam')
-    Slam()
-    rospy.spin()
+    slam_obj = Slam()
+
+    rate = rospy.Rate(20)
+    while not rospy.is_shutdown():
+
+        # if (self.indx % odom_hz == 0): #TODO changing this number changes the answer... whyyy? (it does not anymore???)
+        slam_obj.publish_pose_estm()
+
+        rate.sleep()
+
+
+
+#Thrash
+
+#Initial estimate based on ground truth
+# x_gt = odom_msg.pose.pose.position.x
+# y_gt = odom_msg.pose.pose.position.y
+# ros_quat_gt = odom_msg.pose.pose.orientation
+# yaw_gt = self.ros_quat_to_yaw(ros_quat_gt) #in radians
+# self.initial_estimate.insert(self.indx, gtsam.Pose2(x_gt, y_gt, yaw_gt))
