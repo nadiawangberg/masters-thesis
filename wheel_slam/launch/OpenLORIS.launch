@@ -1,11 +1,19 @@
 <launch>
     <arg name="rviz" default="true"/>
+    <arg name="scene" default="corridor"/>
 
     <!-- static tf needed for orb-slam2 to init -->
     <node name="init_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 odom base_link"/>
     <node name="cam_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 base_link camera_link"/>
 
-    <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/OpenLORIS_corridor/corridor1-2.bag"/> <!-- TODO when should clock param be on?? -->
+    <group if="$(eval arg('scene') == 'corridor')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/OpenLORIS/corridor1-2.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+    <group if="$(eval arg('scene') == 'cafe')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/OpenLORIS/cafe1-2.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
 
     <group if="$(arg rviz)">
             <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wheel_slam)/rviz/openLORIS.rviz" required="true" />
