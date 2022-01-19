@@ -32,11 +32,11 @@
     <node name="kinect_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.0443 0.032 0.305 -0.003098 0.0001047 -0.0000003 0.9999952 $(arg base_name) kinect_link"/>
 
     <!-- KINECT2-->
-    <!-- <node name="kinect_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.0443 0.032 0.305 -0.003098 0.0001047 -0.0000003 0.9999952 $(arg base_name) kinect2_link"/>
+    <node name="kinect2_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0.0443 0.032 0.305 -0.003098 0.0001047 -0.0000003 0.9999952 $(arg base_name) kinect2_link"/>
     <node name="kinect_link_rgb_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 -0.045 0 0 0 0 1 $(arg base_name) kinect2_rgb_frame"/>
     <node name="kinect_link_rgb2_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 -0.5 0.5 -0.5 0.5  $(arg base_name) kinect2_rgb_optical_frame"/>
     <node name="kinect_link_depth_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 -0.02 0 0 0 0 1 $(arg base_name) kinect2_depth_frame"/>
-    <node name="kinect_link_depth2_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 -0.5 0.5 -0.5 0.5 $(arg base_name) kinect2_depth_optical_frame"/> -->
+    <node name="kinect_link_depth2_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 -0.5 0.5 -0.5 0.5 $(arg base_name) kinect2_depth_optical_frame"/>
 
     <!-- 
         MuSe extrinsics - /params/extrinsics.yaml

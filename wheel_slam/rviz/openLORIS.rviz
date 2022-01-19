@@ -6,10 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /wheel_odom1
         - /wheel_odom1/Shape1
-        - /TF1
-        - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 800
   - Class: rviz/Selection
@@ -30,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -56,10 +53,36 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base_link:
+          Value: true
+        camera_link:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          base_link:
+            camera_link:
+              {}
+      Update Interval: 0
+      Value: true
     - Class: rviz/Group
       Displays:
         - Class: rviz/Image
-          Enabled: true
+          Enabled: false
           Image Topic: /d400/aligned_depth_to_color/image_raw
           Max Value: 1
           Median window: 5
@@ -69,9 +92,9 @@ Visualization Manager:
           Queue Size: 2
           Transport Hint: raw
           Unreliable: false
-          Value: true
+          Value: false
         - Class: rviz/Image
-          Enabled: true
+          Enabled: false
           Image Topic: /d400/color/image_raw
           Max Value: 1
           Median window: 5
@@ -81,8 +104,34 @@ Visualization Manager:
           Queue Size: 2
           Transport Hint: raw
           Unreliable: false
+          Value: false
+        - Class: jsk_rviz_plugin/OverlayImage
+          Enabled: true
+          Name: OverlayImage
+          Topic: /d400/color/image_raw
           Value: true
-      Enabled: false
+          alpha: 0.800000011920929
+          height: 128
+          keep aspect ratio: true
+          left: 0
+          overwrite alpha value: false
+          top: 0
+          transport hint: raw
+          width: 500
+        - Class: jsk_rviz_plugin/OverlayImage
+          Enabled: true
+          Name: OverlayImage
+          Topic: /d400/depth/image_raw
+          Value: true
+          alpha: 0.800000011920929
+          height: 128
+          keep aspect ratio: true
+          left: 0
+          overwrite alpha value: false
+          top: 300
+          transport hint: raw
+          width: 500
+      Enabled: true
       Name: image
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
@@ -242,46 +291,97 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-      Enabled: true
+      Enabled: false
       Name: RTAB
-    - Class: rviz/TF
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
       Enabled: true
-      Frame Timeout: 15
-      Frames:
-        All Enabled: true
-        base_link:
-          Value: true
-        d400_color:
-          Value: true
-        d400_depth:
-          Value: true
-        d400_imu:
-          Value: true
-        laser:
-          Value: true
-        marker:
-          Value: true
-        t265_fisheye1:
-          Value: true
-        t265_fisheye2:
-          Value: true
-        t265_imu:
-          Value: true
-      Marker Alpha: 1
-      Marker Scale: 1
-      Name: TF
-      Show Arrows: true
-      Show Axes: true
-      Show Names: true
-      Tree:
-        {}
-      Update Interval: 0
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /orb_slam2_rgbd/map_points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
+    - Class: rviz/Group
+      Displays: ~
+      Enabled: true
+      Name: ORB-SLAM
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.30000001192092896
+      Style: Flat Squares
+      Topic: /orb_slam2_rgbd/map_points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Queue Size: 10
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: /orb_slam2_rgbd/pose
+      Unreliable: false
+      Value: true
+    - Class: jsk_rviz_plugin/TFTrajectory
+      Enabled: false
+      Name: TFTrajectory
+      Value: false
+      color: 25; 255; 240
+      duration: 10
+      frame: base_link
+      line_width: 0.009999999776482582
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: gt_map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -304,8 +404,8 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/Orbit
-      Distance: 23.011226654052734
+      Class: rviz/ThirdPersonFollower
+      Distance: 80.21685028076172
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -313,17 +413,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0
-        Y: 0
+        X: -20.106998443603516
+        Y: 7.427665710449219
         Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5053984522819519
+      Pitch: 1.1102019548416138
       Target Frame: <Fixed Frame>
-      Yaw: 5.373565196990967
+      Yaw: 0.7954003810882568
     Saved: ~
 Window Geometry:
   Displays:
@@ -333,7 +433,7 @@ Window Geometry:
   Hide Right Dock: false
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000023c00000418fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000004180000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d006100670065000000028b000000bb0000002600fffffffb0000000a0049006d006100670065000000030b000000bc0000002600fffffffb0000000a0049006d00610067006500000003d3000000b30000000000000000000000010000015f00000418fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000006e000004180000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000097000000060fc0100000002fb0000000800540069006d00650100000000000009700000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000005bd0000041800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000002f500000418fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000b0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000004180000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d006100670065000000039f000000870000002600fffffffb0000000a0049006d0061006700650000000424000000620000002600fffffffb0000000a0049006d00610067006500000003d3000000b30000000000000000000000010000015f00000418fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000006e000004180000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000097000000060fc0100000002fb0000000800540069006d00650100000000000009700000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000005040000041800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
