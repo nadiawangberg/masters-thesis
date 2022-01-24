@@ -349,17 +349,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 3.9919204711914062
-        Y: 0.7967495918273926
-        Z: -4.794084088644013e-05
+        X: 0.08091139793395996
+        Y: 0.18817830085754395
+        Z: -4.841767804464325e-05
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.569795548915863
+      Pitch: 0.1947958767414093
       Target Frame: <Fixed Frame>
-      Yaw: 1.0335623025894165
+      Yaw: 1.3835630416870117
     Saved: ~
 Window Geometry:
   Displays:
