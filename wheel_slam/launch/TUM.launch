@@ -1,0 +1,37 @@
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="scene" default="dynamic"/>
+
+    <!-- static tf needed for orb-slam2 to init -->
+    <node name="odom_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 world odom"/>
+     <node name="map_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 world map"/>
+    <node name="baselink_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 odom base_link"/>
+    <node name="camera_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 base_link camera_link"/>
+
+    <group if="$(eval arg('scene') == 'dynamic')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+    <group if="$(eval arg('scene') == 'plant')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg1_plant.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+    <group if="$(eval arg('scene') == 'validate')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+    <group if="$(eval arg('scene') == 'calib')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_checkerboard_large.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+
+    <group if="$(eval arg('scene') == 'household')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find wheel_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_long_office_household.bag"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+
+    <group if="$(arg rviz)">
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wheel_slam)/rviz/TUM.rviz" required="true" />
+    </group>
+
+</launch>
