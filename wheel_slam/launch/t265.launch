@@ -51,7 +51,7 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   
 
   <group if="$(arg rviz)">
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wheel_slam)/rviz/t265_config.rviz" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/t265_config.rviz" required="true" />
   </group>
 
 

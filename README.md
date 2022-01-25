@@ -5,7 +5,7 @@ Code and files related to my master's thesis
 
 
 
-Wheel_slam 
+robust_slam 
 
 
 jsk_rviz_plugins - to monitor tf trajectories

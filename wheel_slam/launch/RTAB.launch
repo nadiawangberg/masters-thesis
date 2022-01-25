@@ -2,7 +2,7 @@
 <launch>
   <arg name="ns" default="d400"/>
   <include file="$(find rtabmap_ros)/launch/rtabmap.launch" >
-  <!-- <include file="$(find wheel_slam)/launch/RTAB_no_backend.launch" > -->
+  <!-- <include file="$(find robust_slam)/launch/RTAB_no_backend.launch" > -->
   
       <!-- <arg name="namespace" value="$(arg ns)" /> -->
       <!-- <arg name="subscribe_rgbd" value="true" /> -->

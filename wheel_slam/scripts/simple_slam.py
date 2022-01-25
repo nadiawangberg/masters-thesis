@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 import gtsam
 
-# from wheel_slam.src.wheel_slam import slam_ros_utils
+# from robust_slam.src.robust_slam import slam_ros_utils
 # import slam_ros_utils as utl
 
 br = CvBridge()

@@ -1,7 +1,7 @@
 <launch>
     <arg name="rviz" default="true"/>
 
-    <node pkg="rosbag" type="play" name="player" args="$(find wheel_slam)/bags/ViconRoom/V1_01_easy.bag --clock"/> <!-- TODO when should clock param be on?? -->
+    <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"/> <!-- TODO when should clock param be on?? -->
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch" output="screen" >
         <arg name="online" value="true" />
