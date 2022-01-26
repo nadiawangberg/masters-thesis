@@ -1,13 +1,14 @@
 <launch>
     <arg name="rviz" default="true"/>
+    <arg name="use_lcd" default="false"/>
 
     <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"/> <!-- TODO when should clock param be on?? -->
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch"> <!-- output="screen" -->
         <arg name="online" value="true" />
-        <arg name="use_lcd" value="true" />
+        <arg name="use_lcd" value="$(arg use_lcd)"/>
     </include>
-    
+
     <group if="$(arg rviz)">
             <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kimera_vio_ros)/rviz/kimera_vio_euroc.rviz" required="true" />
     </group>
