@@ -1,0 +1,18 @@
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="use_lcd" default="false"/>
+    <arg name="scene" default="office"/>
+
+    <!-- <group if="$(arg scene == ???)" -->
+    <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
+
+    <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_uhumans2.launch">
+        <arg name="online" value="true" />
+        <arg name="use_lcd" value="$(arg use_lcd)"/>
+    </include>
+
+    <group if="$(arg rviz)">
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_uhumans.rviz" required="true" />
+    </group>
+
+</launch>

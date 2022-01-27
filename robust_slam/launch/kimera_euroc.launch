@@ -7,10 +7,12 @@
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch"> <!-- output="screen" -->
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
+        <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
+        <arg name="log_gt_data" value="false" />
     </include>
 
     <group if="$(arg rviz)">
-            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kimera_vio_ros)/rviz/kimera_vio_euroc.rviz" required="true" />
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_euroc.rviz" required="true" />
     </group>
 
 </launch>

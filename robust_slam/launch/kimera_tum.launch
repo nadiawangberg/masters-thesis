@@ -1,0 +1,31 @@
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="use_lcd" default="false"/>
+
+    <arg name="scene" default="validate"/>
+
+    <group if="$(eval arg('scene') == 'validate')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag --clock"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+    <group if="$(eval arg('scene') == 'dynamic')">
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag --clock"/> <!-- TODO when should clock param be on?? -->
+    </group>
+
+    <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">
+        <arg name="online" value="true" />
+        <arg name="use_lcd" value="$(arg use_lcd)"/>
+        <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
+        <arg name="dataset_name" value="TUM" />
+        <arg name="use_online_cam_params" value="true" />
+        <arg name="dataset_name" value="TUM" />
+        <arg name="dataset_name" value="TUM" />
+        <arg name="dataset_name" value="TUM" />
+
+    </include>
+
+    <group if="$(arg rviz)">
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kimera_vio_ros)/rviz/kimera_vio_euroc.rviz" required="true" />
+    </group>
+
+</launch>
