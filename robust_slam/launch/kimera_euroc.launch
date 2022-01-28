@@ -1,6 +1,8 @@
 <launch>
     <arg name="rviz" default="true"/>
     <arg name="use_lcd" default="false"/>
+    <arg name="scene" default="vicon_room"/> <!-- from the Euroc MAV dataset-->
+    <arg name="record_for_evo" default="false"/>
 
     <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"/> <!-- TODO when should clock param be on?? -->
 
@@ -13,6 +15,10 @@
 
     <group if="$(arg rviz)">
             <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_euroc.rviz" required="true" />
+    </group>
+
+    <group if="$(arg record_for_evo)">
+            <node pkg="rosbag" type="record" name="recorder" required="true" args="--duration=5m -o $(find robust_slam)/bags/bags_for_evo/euroc_$(arg scene).bag /tf" /> <!-- $(arg('scene'))-->
     </group>
 
 </launch>

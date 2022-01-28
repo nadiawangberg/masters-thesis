@@ -2,6 +2,7 @@
     <arg name="rviz" default="true"/>
     <arg name="use_lcd" default="false"/>
     <arg name="scene" default="office"/>
+    <arg name="record_for_evo" default="false"/>
 
     <group if="$(eval arg('scene') == 'office')">
         <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
@@ -26,6 +27,10 @@
 
     <group if="$(arg rviz)">
             <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_uhumans.rviz" required="true" />
+    </group>
+
+    <group if="$(arg record_for_evo)">
+            <node pkg="rosbag" type="record" name="recorder" required="true" args="--duration=5m -o $(find robust_slam)/bags/bags_for_evo/uHumans2_$(arg scene).bag /tf" /> <!-- $(arg('scene'))-->
     </group>
 
 </launch>
