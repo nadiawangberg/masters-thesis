@@ -3,8 +3,21 @@
     <arg name="use_lcd" default="false"/>
     <arg name="scene" default="office"/>
 
-    <!-- <group if="$(arg scene == ???)" -->
-    <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
+    <group if="$(eval arg('scene') == 'office')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
+    </group>
+
+    <group if="$(eval arg('scene') == 'office_w_people')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock"/>
+    </group>
+
+    <group if="$(eval arg('scene') == 'subway')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_00h.bag --clock"/>
+    </group>
+
+    <group if="$(eval arg('scene') == 'subway_w_people')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_36h.bag --clock"/>
+    </group>
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_uhumans2.launch">
         <arg name="online" value="true" />
