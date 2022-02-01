@@ -2,7 +2,13 @@
     <arg name="rviz" default="true"/>
     <arg name="use_lcd" default="false"/>
     <arg name="scene" default="office"/>
+
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+
     <arg name="record_for_evo" default="false"/>
+    <arg name="d" default="2m"/> <!-- TODO - the duration parameter doesnt properly work? -->
 
     <group if="$(eval arg('scene') == 'office')">
         <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
@@ -30,7 +36,7 @@
     </group>
 
     <group if="$(arg record_for_evo)">
-            <node pkg="rosbag" type="record" name="recorder" required="true" args="--duration=5m -o $(find robust_slam)/bags/bags_for_evo/uHumans2_$(arg scene).bag /tf" /> <!-- $(arg('scene'))-->
+            <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/bags_for_evo/uhumans2_$(arg scene)_$(arg d).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
     </group>
 
 </launch>
