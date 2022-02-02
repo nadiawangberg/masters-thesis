@@ -7,7 +7,7 @@
     <arg name="record_for_evo" default="false"/>
 
     <arg name="volumetric" default="false"/>
-    <arg name="semantics" default="false"/>
+    <arg name="semantic" default="true"/>
 
     <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"/> <!-- TODO when should clock param be on?? -->
 
@@ -21,7 +21,7 @@
 
     <group if="$(arg volumetric)">
         <include file="$(find kimera_semantics_ros)/launch/kimera_semantics_euroc.launch">
-            <arg name="metric_semantic_reconstruction" value="$(arg semantics)" /> <!-- set to true for semantics-->
+            <arg name="metric_semantic_reconstruction" value="$(arg semantic)" /> <!-- set to true for semantics-->
         </include>
     </group>
 

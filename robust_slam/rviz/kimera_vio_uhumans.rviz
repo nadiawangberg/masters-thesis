@@ -67,7 +67,29 @@ Visualization Manager:
           Value: false
         left_cam_kimera:
           Value: false
-        map:
+        object_0:
+          Value: true
+        object_1:
+          Value: true
+        object_10:
+          Value: true
+        object_11:
+          Value: true
+        object_2:
+          Value: true
+        object_3:
+          Value: true
+        object_4:
+          Value: true
+        object_5:
+          Value: true
+        object_6:
+          Value: true
+        object_7:
+          Value: true
+        object_8:
+          Value: true
+        object_9:
           Value: true
         rear_lidar:
           Value: false
@@ -99,7 +121,29 @@ Visualization Manager:
               {}
             right_cam_kimera:
               {}
-          map:
+          object_0:
+            {}
+          object_1:
+            {}
+          object_10:
+            {}
+          object_11:
+            {}
+          object_2:
+            {}
+          object_3:
+            {}
+          object_4:
+            {}
+          object_5:
+            {}
+          object_6:
+            {}
+          object_7:
+            {}
+          object_8:
+            {}
+          object_9:
             {}
       Update Interval: 0
       Value: true
@@ -289,6 +333,13 @@ Visualization Manager:
       duration: 1000
       frame: map
       line_width: 0.10000000149011612
+    - Class: voxblox_rviz_plugin/VoxbloxMesh
+      Enabled: true
+      Name: VoxbloxMesh
+      Queue Size: 10
+      Topic: /kimera_semantics_node/mesh
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
@@ -317,7 +368,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 33.967384338378906
+      Distance: 24.754484176635742
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -325,17 +376,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -12.671396255493164
-        Y: 20.349584579467773
+        X: -19.81300163269043
+        Y: 25.310182571411133
         Z: 1.6443096683360636e-05
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5647963285446167
+      Pitch: 0.30479758977890015
       Target Frame: base_link
-      Yaw: 3.0550239086151123
+      Yaw: 3.0950229167938232
     Saved:
       - Class: rviz/ThirdPersonFollower
         Distance: 6.814720153808594
