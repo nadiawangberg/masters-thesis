@@ -1,15 +1,14 @@
 <launch>
     <arg name="rviz" default="true"/>
     <arg name="use_lcd" default="false"/>
+    <arg name="scene" default="static"/>
 
-    <arg name="scene" default="validate"/>
-
-    <group if="$(eval arg('scene') == 'validate')">
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag --clock"/> <!-- TODO when should clock param be on?? -->
+    <group if="$(eval arg('scene') == 'static')"> <!-- validate -->
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag --clock"/>
     </group>
 
     <group if="$(eval arg('scene') == 'dynamic')">
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag --clock"/> <!-- TODO when should clock param be on?? -->
+        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag --clock"/>
     </group>
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">
