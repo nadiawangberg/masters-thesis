@@ -16,7 +16,7 @@
         <arg name="use_lcd" value="$(arg use_lcd)"/>
         <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
         <arg name="dataset_name" value="TUM" />
-        <arg name="use_online_cam_params" value="true" />
+        <!-- <arg name="use_online_cam_params" value="true" /> -->
         <arg name="dataset_name" value="TUM" />
         <arg name="dataset_name" value="TUM" />
         <arg name="dataset_name" value="TUM" />
