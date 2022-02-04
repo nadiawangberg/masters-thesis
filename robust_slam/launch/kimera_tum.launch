@@ -2,29 +2,38 @@
     <arg name="rviz" default="true"/>
     <arg name="use_lcd" default="false"/>
     <arg name="scene" default="static"/>
+    <arg name="s" default="0" doc="start time for rosbag"/>
+
+    <param name="use_sim_time" value="true"/>
 
     <group if="$(eval arg('scene') == 'static')"> <!-- validate -->
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag --clock -s $(arg s)"/>
     </group>
 
     <group if="$(eval arg('scene') == 'dynamic')">
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag --clock -s $(arg s)"/>
     </group>
 
+    <!-- <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch">
+    </include> -->
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
-        <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
         <arg name="dataset_name" value="TUM" />
         <!-- <arg name="use_online_cam_params" value="true" /> -->
-        <arg name="dataset_name" value="TUM" />
-        <arg name="dataset_name" value="TUM" />
-        <arg name="dataset_name" value="TUM" />
-
+        
+        <arg name="left_cam_topic" value="/camera/rgb/image_color" />
+        <arg name="left_cam_info_topic" value="/camera/rgb/camera_info" />
+        <arg name="right_cam_topic" value="/camera/rgb/image_color" />
+        <arg name="right_cam_info_topic" value="/camera/rgb/camera_info" />
+        <arg name="left_cam_frame_id"  default="kinect"/>
+        <arg name="right_cam_frame_id" default="kinect"/>
+        <arg name="imu_topic" value="/imu" />
+        <arg name="gt_topic" value=""/>
     </include>
 
     <group if="$(arg rviz)">
-            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kimera_vio_ros)/rviz/kimera_vio_euroc.rviz" required="true" />
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_tum.rviz" required="true" />
     </group>
 
 </launch>

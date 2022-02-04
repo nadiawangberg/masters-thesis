@@ -5,26 +5,25 @@
     <arg name="record_for_evo" default="false"/>
     <arg name="d" default="2m"/> <!-- TODO - the duration parameter doesnt properly work? -->
     <arg name="volumetric" default="false"/>
-    <arg name="semantic" default="true"/> <!-- NOTE, only runs if volumetric is set to true -->
+    <arg name="semantic" default="false"/> <!-- NOTE, only runs if volumetric is set to true -->
+    <arg name="s" default="0" doc="start time for rosbag"/>
 
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
+    <param name="use_sim_time"   value="true" />
 
     <group if="$(eval arg('scene') == 'office')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock -s $(arg s)"/>
     </group>
 
     <group if="$(eval arg('scene') == 'office_w_people')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock -s $(arg s)"/>
     </group>
 
     <group if="$(eval arg('scene') == 'subway')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_00h.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_00h.bag --clock -s $(arg s)"/>
     </group>
 
     <group if="$(eval arg('scene') == 'subway_w_people')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_36h.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_36h.bag --clock -s $(arg s)"/>
     </group>
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_uhumans2.launch">
@@ -36,6 +35,10 @@
     <group if="$(arg volumetric)">
         <include file="$(find kimera_semantics_ros)/launch/kimera_semantics_uHumans2.launch">
                 <arg name="metric_semantic_reconstruction" value="$(arg semantic)" /> <!-- set to true for semantics-->
+
+                <!-- TODO manually comment this in when using metrics with either of the subway datasets -->
+                <!-- <arg name="semantic_label_2_color_csv_filepath" value="$(find kimera_semantics_ros)/cfg/tesse_multiscene_underground1_segmentation_mapping.csv"/> -->
+
         </include>
     </group>
 
