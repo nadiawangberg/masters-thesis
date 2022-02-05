@@ -12,7 +12,9 @@
     </rosparam>
 
     <group if="$(eval arg('scene') == 'office')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock">
+            <remap from="tesse/seg_cam/rgb/image_raw" to="kimera_vio_ros/seg_cam/rgb/image_raw"/>
+        </node>
     </group>
 
     <group if="$(eval arg('scene') == 'office_w_people')">
