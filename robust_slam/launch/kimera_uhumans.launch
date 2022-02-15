@@ -7,12 +7,14 @@
     <arg name="volumetric" default="false"/>
     <arg name="semantic" default="true"/> <!-- NOTE, only runs if volumetric is set to true -->
     <arg name="start_time" default="0" doc="How many seconds into the rosbag to start"/>
-    <arg name="seg_frame_topic" default="kimera_vio_ros/seg_cam/rgb/image_raw" doc="Set this to something else if seg frame should not be used" />
 
+    <param name="/use_sim_time" value="true"/>
 
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
+    <!-- TODO - Two parameters needs to be changed when switching between dynKimera and origKimera (this is bad) ... -->
+    <!-- TODO - even when seg_frame_topic is set to none, it is not automatically compatible with volumetric -->
+    <arg name="seg_frame_topic" default="kimera_vio_ros/seg_cam/rgb/image_raw" doc="Change to none for origKimera" />
+    <arg name="kimera_type" default="dyn" doc="Which kimera_vio version to usu; dvio or dyn(ours)"/> <!-- dvio / dyn -->
+
 
     <group if="$(eval arg('scene') == 'office')">
         <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock -s $(arg start_time)">
@@ -38,6 +40,19 @@
         </node>
     </group>
 
+    <group if="$(eval arg('scene') == 'neighborhood')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_neighborhood_s1_00h.bag --clock -s $(arg start_time)">
+            <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == 'neighborhood_w_people')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_neighborhood_s1_36h.bag --clock -s $(arg start_time)">
+            <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
+        </node>
+    </group>
+
+
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_uhumans2.launch">
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
@@ -55,7 +70,7 @@
     </group>
 
     <group if="$(arg record_for_evo)">
-            <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/uhumans2_$(arg scene)_$(arg d).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
+            <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/uhumans2_$(arg scene)_$(arg d)_$(arg kimera_type).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
     </group>
 
 </launch>
