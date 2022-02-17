@@ -8,6 +8,8 @@
     <arg name="semantic" default="true"/> <!-- NOTE, only runs if volumetric is set to true -->
     <arg name="start_time" default="0" doc="How many seconds into the rosbag to start"/>
 
+    <arg name="node_start_delay" default="5.0" />  <!-- Hack to delay rosbag play - TODO(Nadia) remove this if this does not fix (does not seem to work)-->
+
     <param name="/use_sim_time" value="true"/>
 
     <!-- TODO - Two parameters needs to be changed when switching between dynKimera and origKimera (this is bad) ... -->
@@ -17,7 +19,8 @@
 
 
     <group if="$(eval arg('scene') == 'office')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock -s $(arg start_time)">
+        <node pkg="rosbag" type="play" name="player" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "
+              args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock -s $(arg start_time)">
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
