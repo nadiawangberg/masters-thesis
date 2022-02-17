@@ -15,8 +15,7 @@
     <!-- TODO - Two parameters needs to be changed when switching between dynKimera and origKimera (this is bad) ... -->
     <!-- TODO - even when seg_frame_topic is set to none, it is not automatically compatible with volumetric -->
     <arg name="seg_frame_topic" default="kimera_vio_ros/seg_cam/rgb/image_raw" doc="Change to none for origKimera" />
-    <arg name="kimera_type" default="dyn" doc="Which kimera_vio version to usu; dvio or dyn(ours)"/> <!-- dvio / dyn -->
-
+    <arg name="bag_suffix" default="dyn" doc="What suffix the recorded rosbag should have [dyn / orig]"/> <!-- dyn / orig -->
 
     <group if="$(eval arg('scene') == 'office')">
         <node pkg="rosbag" type="play" name="player" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "
@@ -73,7 +72,7 @@
     </group>
 
     <group if="$(arg record_for_evo)">
-            <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/uhumans2_$(arg scene)_$(arg d)_$(arg kimera_type).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
+            <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/uhumans2_$(arg scene)_$(arg d)_$(arg bag_suffix).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
     </group>
 
 </launch>
