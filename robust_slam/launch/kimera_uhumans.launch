@@ -25,7 +25,9 @@
     </group>
 
     <group if="$(eval arg('scene') == 'office_w_people')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock -s $(arg start_time)">
+        <node pkg="rosbag" type="play" name="player" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'"
+              args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock -s $(arg start_time)"
+              output="log" >
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
