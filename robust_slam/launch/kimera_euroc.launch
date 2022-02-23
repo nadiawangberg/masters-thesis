@@ -14,7 +14,7 @@
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch"> <!-- output="screen" -->
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
-        <arg name="run_stereo_dense" value="true"/> <!-- TODO, should this be false when not running w semantics?? -->
+        <arg name="run_stereo_dense" value="false"/> <!-- TODO, should this be false when not running w semantics?? -->
         <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
         <arg name="log_gt_data" value="false" />
     </include>
