@@ -4,7 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded: ~
-      Splitter Ratio: 0.5
+      Splitter Ratio: 0.5028409361839294
     Tree Height: 531
   - Class: rviz/Selection
     Name: Selection
@@ -174,7 +174,7 @@ Visualization Manager:
           duration: 1000
           frame: ""
           line_width: 0.10000000149011612
-      Enabled: false
+      Enabled: true
       Name: Kimera-vio
     - Class: rviz/Group
       Displays:
@@ -253,7 +253,7 @@ Visualization Manager:
             {}
           Queue Size: 100
           Value: true
-      Enabled: true
+      Enabled: false
       Name: Semantics
     - Class: rviz/Group
       Displays:
@@ -311,7 +311,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 9.295008659362793
+      Distance: 9.40530014038086
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -319,17 +319,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -2.328885793685913
-        Y: 0.9200210571289062
+        X: -1.4116017818450928
+        Y: 0.46935248374938965
         Z: 1.2249238352524117e-05
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8897968530654907
+      Pitch: 0.31479740142822266
       Target Frame: base_link
-      Yaw: 2.821908473968506
+      Yaw: 2.6219046115875244
     Saved:
       - Class: rviz/ThirdPersonFollower
         Distance: 6.814720153808594
