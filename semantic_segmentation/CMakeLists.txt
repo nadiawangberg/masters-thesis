@@ -22,8 +22,16 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
 
-find_package(OpenCV)
+# find_package(OpenCV)
 
+# find_package(OpenCV REQUIRED
+#    NO_MODULE #Should be optional, tells CMake to use config mode
+#    PATHS /usr/local # Tells CMake to look here
+#    NO_DEFAULT_PATH #and don't look anywhere else
+# )
+
+find_package(OpenCV)
+# find_package(OpenCV 4.5.5 EXACT REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
