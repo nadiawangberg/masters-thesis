@@ -1,29 +1,21 @@
 <launch>
     <arg name="rviz" default="true"/>
     <arg name="use_lcd" default="false"/>
-    <arg name="scene" default="static"/>
+    <arg name="scene" default="validate"/>
 
     <param name="/use_sim_time" value="true"/>
 
-    <group if="$(eval arg('scene') == 'static')"> <!-- validate -->
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg2_xyz.bag --clock"/>
-    </group>
+    <include file="$(find robust_slam)/launch/TUM.launch" pass_all_args="true"> <!-- rviz, scene-->
+    </include>
 
-    <group if="$(eval arg('scene') == 'dynamic')">
-        <node pkg="rosbag" type="play" name="player" output="screen" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag --clock"/>
-    </group>
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">
-        <arg name="dataset_name"   default="TUM"/> <!-- TODO, ensure there are params in /params-->
+        <arg name="dataset_name"   default="Euroc"/> <!-- TODO, ensure there are params in /params-->
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
 
         <!-- <arg name="use_online_cam_params" value="true" /> -->
 
     </include>
-
-    <!-- <group if="$(arg rviz)">
-            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_tum.rviz" required="true" />
-    </group> -->
 
 </launch>
