@@ -15,8 +15,16 @@
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
 
+        <arg name="right_cam_topic"                   default="/cam0/image_raw"/> <!-- Needed to ensure that no stereo data is used in monocular setup-->
+        <arg name="right_cam_info_topic"              default="/cam0/camera_info"/>
         <!-- <arg name="use_online_cam_params" value="true" /> -->
 
     </include>
 
 </launch>
+<!-- 
+<arg name="left_cam_topic"                    default="/cam0/image_raw"/>
+<arg name="left_cam_info_topic"               default="/cam0/camera_info"/>
+<arg name="right_cam_topic"                   default="/cam1/image_raw"/>
+<arg name="right_cam_info_topic"              default="/cam1/camera_info"/>
+<arg name="imu_topic"                         default="/imu0"/> -->
