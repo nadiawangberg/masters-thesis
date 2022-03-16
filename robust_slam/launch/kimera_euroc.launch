@@ -5,17 +5,20 @@
     <arg name="use_lcd" default="false"/>
     <arg name="scene" default="vicon_room"/> <!-- from the Euroc MAV dataset-->
     <arg name="record_for_evo" default="false"/>
+    <arg name="sensor_setup" default="Euroc" /> <!-- can be EurocMono for monocular -->
 
     <arg name="volumetric" default="false"/>
     <arg name="semantic" default="true"/>
 
-    <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"/> <!-- TODO when should clock param be on?? -->
-
+    <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"> <!-- TODO when should clock param be on?? -->
+    </node>
+    
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch"> <!-- output="screen" -->
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
         <arg name="run_stereo_dense" value="false"/> <!-- TODO, should this be false when not running w semantics?? -->
         <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
+        <arg name="dataset_name" value="$(arg sensor_setup)"/>
         <arg name="log_gt_data" value="false" />
     </include>
 
