@@ -1,0 +1,38 @@
+<launch>
+    <arg name="rviz" default="true"  doc="Toggle ROS visualization tool" />
+    <arg name="use_lcd" default="false" doc="Toggle kimera loop closure module" />
+    <arg name="scene" default="0_none" doc="Which VIODE rosbag to play (0_none, 1_low, 2_mid, 3_high)" />
+
+    <arg name="record_for_evo" default="false" doc="Toggle whether rosbag record should be run" />
+    <arg name="d" default="2m" doc="Duration to record rosbag (only relevant if record_for_evo is true)" />
+
+    <arg name="bag_suffix" default="dyn" doc="What suffix the recorded rosbag should have [dyn / orig]"/> <!-- dyn / orig -->
+
+    <param name="/use_sim_time" value="true"/>
+
+    <include file="$(find robust_slam)/launch/VIODE.launch" pass_all_args="true"> <!-- rviz, scene-->
+    </include>
+
+    <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">
+        <arg name="dataset_name"   default="VIODE"/> <!-- TODO, ensure there are params in /params-->
+        <arg name="online" value="true" />
+        <arg name="use_lcd" value="$(arg use_lcd)"/>
+
+        <!-- <arg name="right_cam_topic"                   default="/cam0/image_raw"/>
+        <arg name="right_cam_info_topic"              default="/cam0/camera_info"/> -->
+        <!-- <arg name="use_online_cam_params" value="true" /> -->
+
+    </include>
+
+    <group if="$(arg record_for_evo)">
+        <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/viode_$(arg scene)_$(arg d)_$(arg bag_suffix).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
+    </group>
+
+
+</launch>
+<!-- 
+<arg name="left_cam_topic"                    default="/cam0/image_raw"/>
+<arg name="left_cam_info_topic"               default="/cam0/camera_info"/>
+<arg name="right_cam_topic"                   default="/cam1/image_raw"/>
+<arg name="right_cam_info_topic"              default="/cam1/camera_info"/>
+<arg name="imu_topic"                         default="/imu0"/> -->

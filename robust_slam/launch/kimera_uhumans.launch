@@ -61,6 +61,7 @@
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
         <arg name="run_stereo_dense" value="$(arg volumetric)"/> <!-- needed for kimera_semantics -->
+        <!-- <arg name="imu_topic" value="/tesse/imu/noisy/imu"/> -->
     </include>
 
     <group if="$(arg volumetric)">
