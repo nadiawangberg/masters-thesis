@@ -11,11 +11,13 @@
     <param name="/use_sim_time" value="true"/>
 
     <group if="$(eval arg('scene') == 'dynamic')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag  --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_walking_xyz.bag  --clock
+         camera/rgb/image_color:=/cam0/image_raw camera/rgb/camera_info:=/cam0/camera_info imu:=imu0 "/>
     </group>
 
     <group if="$(eval arg('scene') == 'plant')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg1_plant.bag  --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg1_plant.bag  --clock
+         camera/rgb/image_color:=/cam0/image_raw camera/rgb/camera_info:=/cam0/camera_info imu:=imu0 "/>
     </group>
 
     <group if="$(eval arg('scene') == 'validate')">
@@ -24,12 +26,14 @@
     </group>
 
     <group if="$(eval arg('scene') == 'calib')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_checkerboard_large.bag  --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_checkerboard_large.bag  --clock
+         camera/rgb/image_color:=/cam0/image_raw camera/rgb/camera_info:=/cam0/camera_info imu:=imu0"/>
     </group>
 
 
     <group if="$(eval arg('scene') == 'household')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_long_office_household.bag  --clock"/>
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/TUM-rgbd-dataset/rgbd_dataset_freiburg3_long_office_household.bag  --clock
+         camera/rgb/image_color:=/cam0/image_raw camera/rgb/camera_info:=/cam0/camera_info imu:=imu0 "/>
     </group>
 
     <group if="$(eval arg('scene') == 'euroc')">

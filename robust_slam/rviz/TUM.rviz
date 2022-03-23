@@ -6,7 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
+        - /TF1/Frames1
         - /Euroc - debugging1
+        - /Euroc - debugging1/euroc2
       Splitter Ratio: 0.5
     Tree Height: 609
   - Class: rviz/Selection
@@ -27,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: euroc
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -57,26 +60,30 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         base_link:
           Value: true
         camera_link:
-          Value: true
+          Value: false
         kinect:
+          Value: true
+        left_cam:
           Value: true
         map:
           Value: true
         odom:
           Value: true
         openni_camera:
-          Value: true
+          Value: false
         openni_depth_frame:
-          Value: true
+          Value: false
         openni_depth_optical_frame:
           Value: true
         openni_rgb_frame:
           Value: true
         openni_rgb_optical_frame:
+          Value: false
+        right_cam:
           Value: true
         world:
           Value: true
@@ -88,6 +95,13 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
+          base_link:
+            camera_link:
+              {}
+            left_cam:
+              {}
+            right_cam:
+              {}
           kinect:
             openni_camera:
               openni_depth_frame:
@@ -99,9 +113,7 @@ Visualization Manager:
           map:
             {}
           odom:
-            base_link:
-              camera_link:
-                {}
+            {}
       Update Interval: 0
       Value: true
     - Class: rviz/Group
@@ -209,7 +221,7 @@ Visualization Manager:
           Queue Size: 10
           Selectable: true
           Size (Pixels): 3
-          Size (m): 0.029999999329447746
+          Size (m): 0.05000000074505806
           Style: Flat Squares
           Topic: /kimera_vio_ros/time_horizon_pointcloud
           Unreliable: false
@@ -246,7 +258,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 24.82276725769043
+      Distance: 19.826807022094727
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -262,9 +274,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9647963643074036
+      Pitch: 0.7247964143753052
       Target Frame: <Fixed Frame>
-      Yaw: 4.841746807098389
+      Yaw: 0.28673768043518066
     Saved: ~
 Window Geometry:
   Displays:
