@@ -25,7 +25,7 @@
     </include>
 
     <group if="$(arg record_for_evo)">
-        <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/viode_$(arg scene)_$(arg d)_$(arg bag_suffix).bag /tf" /> <!-- NOTE - seems like it records for longer than is specified?? -->
+        <node pkg="rosbag" type="record" name="record" required="true" args="--duration $(arg d) -O $(find robust_slam)/bags/eval/viode/viode_$(arg scene)_$(arg d)_$(arg bag_suffix).bag /tf /kimera_vio_ros/odometry /kimera_vio_ros/gt_odom" /> <!-- NOTE - seems like it records for longer than is specified?? -->
     </group>
 
 
