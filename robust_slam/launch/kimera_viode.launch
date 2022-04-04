@@ -10,7 +10,7 @@
 
     <param name="/use_sim_time" value="true"/>
 
-    <include file="$(find robust_slam)/launch/VIODE.launch" pass_all_args="true"> <!-- rviz, scene-->
+    <include file="$(find robust_slam)/launch/VIODE.launch" pass_all_args="true" required="true"> <!-- rviz, scene-->
     </include>
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">

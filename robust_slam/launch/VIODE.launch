@@ -11,28 +11,28 @@
 
     <!-- Parking lot dataset -->
     <group if="$(eval arg('scene') == '0_none')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_none.bag  --clock" >
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_none.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>        
     </group>
 
     <group if="$(eval arg('scene') == '1_low')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_low.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_low.bag  --clock" required="true" >
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
     </group>
 
     <group if="$(eval arg('scene') == '2_mid')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_mid.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_mid.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
     </group>
 
     <group if="$(eval arg('scene') == '3_high')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_high.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_high.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
@@ -40,28 +40,28 @@
 
     <!-- City night dataset -->
     <group if="$(eval arg('scene') == '0_night')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_night.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_night.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
     </group>
 
     <group if="$(eval arg('scene') == '1_night')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_night.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_night.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
     </group>
 
     <group if="$(eval arg('scene') == '2_night')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_night.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_night.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
     </group>
 
     <group if="$(eval arg('scene') == '3_night')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_night.bag  --clock">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_night.bag  --clock" required="true">
             <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
             <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
         </node>
