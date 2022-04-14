@@ -18,40 +18,39 @@
     <arg name="bag_suffix" default="dyn" doc="What suffix the recorded rosbag should have [dyn / orig]"/> <!-- dyn / orig -->
 
     <group if="$(eval arg('scene') == 'office')">
-        <node pkg="rosbag" type="play" name="player" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "
-              args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock -s $(arg start_time)">
-            <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
+        <node pkg="rosbag" type="play" name="player"
+              args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_00h.bag --clock -s $(arg start_time)" required="true">
+            <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/> <!-- launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " -->
         </node>
     </group>
 
     <group if="$(eval arg('scene') == 'office_w_people')">
-        <node pkg="rosbag" type="play" name="player" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'"
-              args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock -s $(arg start_time)"
-              output="log" >
+        <node pkg="rosbag" type="play" name="player"
+              args="$(find robust_slam)/bags/uHumans/uHumans2_office_s1_12h.bag --clock -s $(arg start_time)" required="true" >
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
 
     <group if="$(eval arg('scene') == 'subway')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_00h.bag --clock -s $(arg start_time)">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_00h.bag --clock -s $(arg start_time)" required="true">
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
 
     <group if="$(eval arg('scene') == 'subway_w_people')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_36h.bag --clock -s $(arg start_time)">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_subway_s1_36h.bag --clock -s $(arg start_time)" required="true" >
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
 
     <group if="$(eval arg('scene') == 'neighborhood')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_neighborhood_s1_00h.bag --clock -s $(arg start_time)">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_neighborhood_s1_00h.bag --clock -s $(arg start_time)" required="true">
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
 
     <group if="$(eval arg('scene') == 'neighborhood_w_people')">
-        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_neighborhood_s1_36h.bag --clock -s $(arg start_time)">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_neighborhood_s1_36h.bag --clock -s $(arg start_time)" required="true">
             <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
         </node>
     </group>
@@ -60,8 +59,8 @@
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_uhumans2.launch">
         <arg name="online" value="true" />
         <arg name="use_lcd" value="$(arg use_lcd)"/>
-        <arg name="run_stereo_dense" value="$(arg volumetric)"/> <!-- needed for kimera_semantics -->
         <!-- <arg name="imu_topic" value="/tesse/imu/noisy/imu"/> -->
+        
     </include>
 
     <group if="$(arg volumetric)">
