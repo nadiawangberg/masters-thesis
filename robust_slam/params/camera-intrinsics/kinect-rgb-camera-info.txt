@@ -1,0 +1,19 @@
+{
+	"kinect-rgb-camera-info": {
+		"D": [0.1498238435,-0.327986871,0.0007772998168,0.005515178317,0],
+		"P": [524.4701538,0,324.0502334,0,0,526.5113525,266.0229243,0,0,0,1,0],
+		"width": 640,
+		"K": [519.4193496,0,320.5527775,0,516.8058056,265.4930578,0,0,1],
+		"height": 480,
+		"R": [1,0,0,0,1,0,0,0,1],
+		"binning_y": 0,
+		"binning_x": 0,
+		"distortion_model": "plumb_bob",
+		"roi_width": 0,
+		"roi_do_rectify": 0,
+		"roi_y_offset": 0,
+		"roi_x_offset": 0,
+		"roi_height": 0,
+		"header_frame_id": "kinect_rgb_optical_frame"
+	}
+}

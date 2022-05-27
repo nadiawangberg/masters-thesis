@@ -1,0 +1,103 @@
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="scene" default="0_none"/>
+
+    <arg name="seg_frame_topic" default="kimera_vio_ros/seg_cam/rgb/image_raw" />
+    <param name="/use_sim_time" value="true"/>
+    
+
+    <node name="camera_link_publisher" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 1 0 0 0 world drone"/>
+
+
+    <!-- Parking lot dataset -->
+    <group if="$(eval arg('scene') == '0_none')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_none.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>        
+    </group>
+
+    <group if="$(eval arg('scene') == '1_low')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_low.bag  --clock" required="true" >
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '2_mid')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_mid.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '3_high')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_high.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <!-- City night dataset -->
+    <group if="$(eval arg('scene') == '0_night')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_night.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '1_night')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_night.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '2_night')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_night.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '3_night')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_night.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <!-- City day dataset -->
+    <group if="$(eval arg('scene') == '0_day')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/0_day.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '1_day')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/1_day.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '2_day')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/2_day.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == '3_day')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/VIODE/3_day.bag  --clock" required="true">
+            <remap from="/odometry" to="/kimera_vio_ros/gt_odom" />
+            <remap from="/cam0/segmentation" to="$(arg seg_frame_topic)" />
+        </node>
+    </group>
+
+    <group if="$(arg rviz)">
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/VIODE.rviz" required="true" />
+    </group>
+
+</launch>

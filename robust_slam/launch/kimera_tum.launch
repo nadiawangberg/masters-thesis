@@ -1,0 +1,30 @@
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="use_lcd" default="false"/>
+    <arg name="scene" default="validate"/>
+    <arg name="arguments_folder" default="TUMMono"/>
+
+    <param name="/use_sim_time" value="true"/>
+
+    <include file="$(find robust_slam)/launch/TUM.launch" pass_all_args="true"> <!-- rviz, scene-->
+    </include>
+
+
+    <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch">
+        <arg name="dataset_name"   default="$(arg arguments_folder)"/> <!-- TODO, ensure there are params in /params-->
+        <arg name="online" value="true" />
+        <arg name="use_lcd" value="$(arg use_lcd)"/>
+
+        <arg name="right_cam_topic"                   default="/cam0/image_raw"/> <!-- Needed to ensure that no stereo data is used in monocular setup-->
+        <arg name="right_cam_info_topic"              default="/cam0/camera_info"/>
+        <!-- <arg name="use_online_cam_params" value="true" /> -->
+
+    </include>
+
+</launch>
+<!-- 
+<arg name="left_cam_topic"                    default="/cam0/image_raw"/>
+<arg name="left_cam_info_topic"               default="/cam0/camera_info"/>
+<arg name="right_cam_topic"                   default="/cam1/image_raw"/>
+<arg name="right_cam_info_topic"              default="/cam1/camera_info"/>
+<arg name="imu_topic"                         default="/imu0"/> -->

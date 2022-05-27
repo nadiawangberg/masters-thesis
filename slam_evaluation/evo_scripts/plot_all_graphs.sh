@@ -10,10 +10,9 @@
 #evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /rtabmap/localization_pose /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz --align
 #evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /rtabmap/localization_pose /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz #--align --n_to_align 2000
 
-evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xy --align_origin #--align --n_to_align 2000
+#evo_traj bag test_delete.bag /wheel_odom /rtabmap/odom /odometry/filtered --ref /vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz --align_origin #--align --n_to_align 2000
 
-
-
+evo_traj bag test_delete.bag  /orb_slam2_rgbd/pose  --ref /tf:map.kinect --plot --plot_mode xyz --align
 
 #NB, tf transforms doesnt work on MuSe bags, only on OpenLORIS bags
 #evo_traj bag RTABlocalization_fused.bag /tf:odom.base_footprint /tf:odom.kinect_link /tf:map.kinect_link /odometry/filtered  /vicon/kobuki_vicon_link/kobuki_vicon_link --ref /tf:world_vicon.vicon/kobuki_vicon_link/kobuki_vicon_link --plot --plot_mode xyz --align

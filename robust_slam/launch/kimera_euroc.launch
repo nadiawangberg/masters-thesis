@@ -1,0 +1,41 @@
+<!-- Launchfile for the euroc dataset - also known as ViconRoom -->
+
+<launch>
+    <arg name="rviz" default="true"/>
+    <arg name="use_lcd" default="false"/>
+    <arg name="scene" default="vicon_room"/> <!-- from the Euroc MAV dataset-->
+    <arg name="record_for_evo" default="false"/>
+    <arg name="sensor_setup" default="Euroc" /> <!-- can be EurocMono for monocular -->
+
+    <arg name="volumetric" default="false"/>
+    <arg name="semantic" default="true"/>
+
+    <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/ViconRoom/V1_01_easy.bag --clock"> <!-- TODO when should clock param be on?? -->
+    </node>
+    
+    <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_euroc.launch"> <!-- output="screen" -->
+        <arg name="online" value="true" />
+        <arg name="use_lcd" value="$(arg use_lcd)"/>
+        <arg name="run_stereo_dense" value="false"/> <!-- TODO, should this be false when not running w semantics?? -->
+        <!-- <arg name="gt_topic" value="vicon/firefly_sbx/firefly_sbx"/> -->
+        <arg name="dataset_name" value="$(arg sensor_setup)"/>
+        <arg name="log_gt_data" value="false" />
+    </include>
+
+    <group if="$(arg volumetric)">
+        <include file="$(find kimera_semantics_ros)/launch/kimera_semantics_euroc.launch">
+            <arg name="metric_semantic_reconstruction" value="$(arg semantic)" /> <!-- set to true for semantics-->
+        </include>
+    </group>
+
+    <group if="$(arg rviz)">
+            <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robust_slam)/rviz/kimera_vio_euroc.rviz" required="true" />
+    </group>
+
+    <!-- rviz -d $(rospack find kimera_semantics_ros)/rviz/kimera_semantics_euroc.rviz -->
+
+    <group if="$(arg record_for_evo)">
+            <node pkg="rosbag" type="record" name="recorder" required="true" args="--duration=5m -o $(find robust_slam)/bags/bags_for_evo/euroc_$(arg scene).bag /tf" />
+    </group>
+
+</launch>

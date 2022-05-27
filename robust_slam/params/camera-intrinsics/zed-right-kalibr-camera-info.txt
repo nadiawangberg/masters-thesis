@@ -1,0 +1,19 @@
+{
+	"zed-right-kalibr-camera-info": {
+		"D": [0,0,0,0,0],
+		"P": [352.3848751,0,324.7795269,0,0,352.8675229,201.6096427,0,0,0,1,0],
+		"width": 672,
+		"K": [352.3848751,0,324.7795269,0,352.8675229,201.6096427,0,0,1],
+		"height": 376,
+		"R": [1,0,0,0,1,0,0,0,1],
+		"binning_y": 0,
+		"binning_x": 0,
+		"distortion_model": "plumb_bob",
+		"roi_width": 0,
+		"roi_do_rectify": 0,
+		"roi_y_offset": 0,
+		"roi_x_offset": 0,
+		"roi_height": 0,
+		"header_frame_id": "zed_right_frame"
+	}
+}
