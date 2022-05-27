@@ -30,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: kimera_pc
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -61,16 +61,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
-          Value: true
-        drone:
-          Value: true
-        left_cam:
-          Value: true
-        right_cam:
-          Value: true
-        world:
-          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -78,14 +68,7 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          base_link:
-            left_cam:
-              {}
-            right_cam:
-              {}
-          drone:
-            {}
+        {}
       Update Interval: 0
       Value: true
     - Class: rviz/Group
@@ -104,10 +87,10 @@ Visualization Manager:
           transport hint: raw
           width: 750
         - Class: jsk_rviz_plugin/OverlayImage
-          Enabled: false
+          Enabled: true
           Name: right
           Topic: /cam1/image_raw
-          Value: false
+          Value: true
           alpha: 0.800000011920929
           height: 128
           keep aspect ratio: true

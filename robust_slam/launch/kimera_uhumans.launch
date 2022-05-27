@@ -55,6 +55,19 @@
         </node>
     </group>
 
+    <group if="$(eval arg('scene') == 'apartment')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_apartment_s1_00h.bag --clock -s $(arg start_time)" required="true">
+            <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
+        </node>
+    </group>
+
+    <group if="$(eval arg('scene') == 'apartment_w_people')">
+        <node pkg="rosbag" type="play" name="player" args="$(find robust_slam)/bags/uHumans/uHumans2_apartment_s1_02h.bag --clock -s $(arg start_time)" required="true">
+            <remap from="tesse/seg_cam/rgb/image_raw" to="$(arg seg_frame_topic)"/>
+        </node>
+    </group>
+
+
 
     <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros_uhumans2.launch">
         <arg name="online" value="true" />

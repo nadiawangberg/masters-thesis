@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /TF1/Frames1
         - /TF1/Tree1
+        - /feature-track1
       Splitter Ratio: 0.5
     Tree Height: 938
   - Class: rviz/Selection
@@ -61,10 +62,6 @@ Visualization Manager:
           Value: true
         base_link_kimera:
           Value: true
-        front_lidar:
-          Value: true
-        left_cam:
-          Value: true
         left_cam_kimera:
           Value: false
         object_0:
@@ -75,57 +72,9 @@ Visualization Manager:
           Value: true
         object_11:
           Value: true
-        object_12:
-          Value: true
-        object_13:
-          Value: true
-        object_14:
-          Value: true
-        object_15:
-          Value: true
-        object_16:
-          Value: true
-        object_17:
-          Value: true
-        object_18:
-          Value: true
-        object_19:
-          Value: true
         object_2:
           Value: true
-        object_20:
-          Value: true
-        object_21:
-          Value: true
-        object_22:
-          Value: true
-        object_23:
-          Value: true
-        object_24:
-          Value: true
-        object_25:
-          Value: true
-        object_26:
-          Value: true
-        object_27:
-          Value: true
-        object_28:
-          Value: true
-        object_29:
-          Value: true
         object_3:
-          Value: true
-        object_30:
-          Value: true
-        object_31:
-          Value: true
-        object_32:
-          Value: true
-        object_33:
-          Value: true
-        object_34:
-          Value: true
-        object_35:
           Value: true
         object_4:
           Value: true
@@ -138,10 +87,6 @@ Visualization Manager:
         object_8:
           Value: true
         object_9:
-          Value: true
-        rear_lidar:
-          Value: true
-        right_cam:
           Value: true
         right_cam_kimera:
           Value: false
@@ -156,14 +101,7 @@ Visualization Manager:
       Tree:
         world:
           base_link_gt:
-            front_lidar:
-              {}
-            left_cam:
-              {}
-            rear_lidar:
-              {}
-            right_cam:
-              {}
+            {}
           base_link_kimera:
             left_cam_kimera:
               {}
@@ -177,57 +115,9 @@ Visualization Manager:
             {}
           object_11:
             {}
-          object_12:
-            {}
-          object_13:
-            {}
-          object_14:
-            {}
-          object_15:
-            {}
-          object_16:
-            {}
-          object_17:
-            {}
-          object_18:
-            {}
-          object_19:
-            {}
           object_2:
             {}
-          object_20:
-            {}
-          object_21:
-            {}
-          object_22:
-            {}
-          object_23:
-            {}
-          object_24:
-            {}
-          object_25:
-            {}
-          object_26:
-            {}
-          object_27:
-            {}
-          object_28:
-            {}
-          object_29:
-            {}
           object_3:
-            {}
-          object_30:
-            {}
-          object_31:
-            {}
-          object_32:
-            {}
-          object_33:
-            {}
-          object_34:
-            {}
-          object_35:
             {}
           object_4:
             {}
@@ -292,14 +182,14 @@ Visualization Manager:
       Name: feature-track
       Topic: /kimera_vio_ros/kimera_vio_ros_node/feature_tracks
       Value: true
-      alpha: 0.800000011920929
-      height: 500
+      alpha: 1
+      height: 550
       keep aspect ratio: false
       left: 0
       overwrite alpha value: false
       top: 0
       transport hint: raw
-      width: 700
+      width: 832
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: false
       Name: Semantic
